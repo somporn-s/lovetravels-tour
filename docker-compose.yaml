@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  db:
+    container_name: db_tour
+    image: mariadb:10.11.6
+    #restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "root_DB_tuor"
+      MYSQL_DATABASE: "db_tour"
+      MYSQL_USER: "user_tour"
+      MYSQL_PASSWORD: "pass_tour"
+    ports:
+      - "9906:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8000:80"
+    #restart: always
+    environment:
+      PMA_HOST: db
+    depends_on:
+      - db
+  app:
+    # image: node
+    build: ./backend
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - "8080:8080"
