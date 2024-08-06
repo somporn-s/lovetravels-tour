@@ -24,22 +24,21 @@ services:
     container_name: frontend-reactjs-tour
     build: ./frontend
     volumes:
-      - './frontend/src:/app/src'
+      - './frontend:/usr/src/app'
       - '/app/node_modules'
-    stdin_open: true
+    tty: true
     ports:
       - '3000:3000'
     depends_on:
       - db
-    links:
-      - db
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    stdin_open: true
   backennd:
     # image: node
     container_name: backend-nodejs-tour
     build: ./backend
     depends_on:
-      - db
-    links:
       - db
     ports:
       - "8080:8080"
@@ -47,3 +46,7 @@ services:
 #frontend
 #npm init
 #npx create-react-app [projectname] || npm install -g create-react-app
+
+#backend
+#npm init
+#npm i express cors dotenv
