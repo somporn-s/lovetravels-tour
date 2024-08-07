@@ -1,4 +1,4 @@
-version: '3.9'
+#version: '3.9'
 services:
   db:
     container_name: db_tour
@@ -20,28 +20,32 @@ services:
       PMA_HOST: db
     depends_on:
       - db
-  frontend:
-    container_name: frontend-reactjs-tour
-    build: ./frontend
-    volumes:
-      - './frontend:/usr/src/app'
-      - '/app/node_modules'
-    tty: true
-    ports:
-      - '3000:3000'
-    depends_on:
-      - db
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    stdin_open: true
   backennd:
     # image: node
     container_name: backend-nodejs-tour
     build: ./backend
-    depends_on:
-      - db
+    volumes:
+      - './backend/index.js:/app/index.js'
+      - '/app/node_modules'
     ports:
       - "8080:8080"
+    depends_on:
+      - db
+  frontend:
+    container_name: frontend-reactjs-tour
+    build: ./frontend
+    volumes:
+      - './frontend:/usr/src/app:delegated'
+      - '/app/node_modules'
+    tty: true
+    ports:
+      - '3000:3000'
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - db
+      - backennd
+    stdin_open: true
 
 #frontend
 #npm init

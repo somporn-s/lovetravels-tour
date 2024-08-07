@@ -1,4 +1,4 @@
-FROM node:20.9
+FROM node:22-alpine3.19
 
 # set the working directory to /app
 WORKDIR /app
@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json .
 
 # install dependencies
-RUN npm install
+RUN npm install -g npm@latest
 
 # copy the rest of the files to the working directory
 COPY . .
@@ -19,3 +19,4 @@ EXPOSE 3000
 CMD [ "npm", "start" ]
 
 #docker build -t [image name] .
+#docker run -p 3000:3000 frontend
