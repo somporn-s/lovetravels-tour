@@ -1,10 +1,11 @@
 FROM node:22-alpine3.19
 
 # set the working directory to /app
+RUN mkdir -p /usr/src/app
 WORKDIR /app
 
 # copy package.json and package-lock.json to the working directory
-COPY package*.json .
+COPY package*.json ./
 
 # install dependencies
 RUN npm install -g npm@latest
@@ -16,7 +17,7 @@ COPY . .
 EXPOSE 3000
 
 # command to run the app
-CMD [ "npm", "run","dev" ]
+CMD [ "npm", "run", "dev" ]
 
 #docker build -t [image name] [path] 
 #=> docker build -t frontend .

@@ -12,7 +12,7 @@ RUN npm install
 COPY . .
 
 EXPOSE 8080
-CMD [ "npm", "run","dev" ]
+CMD [ "npm", "run", "dev" ]
 
 #docker build -t [image name] [path] 
 #=> docker build -t backend .
