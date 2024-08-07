@@ -54,3 +54,7 @@ services:
 #backend
 #npm init
 #npm i express cors dotenv
+
+#docker-compose
+#docker-compose up --build
+#docker-compose down -v

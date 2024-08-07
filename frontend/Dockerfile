@@ -16,7 +16,10 @@ COPY . .
 EXPOSE 3000
 
 # command to run the app
-CMD [ "npm", "start" ]
+CMD [ "npm", "run","dev" ]
 
-#docker build -t [image name] .
-#docker run -p 3000:3000 frontend
+#docker build -t [image name] [path] 
+#=> docker build -t frontend .
+#docker run --name [container name] -p [port use]:[port in docker] [image name]
+#=> docker run --name frontend -p 3000:3000 frontend
+#docker run -u=3000:3000 -v $(pwd):/app -w=/app -d -p 3000:3000 --rm --name=nodedev node bash -c "npm install && npm run dev"
