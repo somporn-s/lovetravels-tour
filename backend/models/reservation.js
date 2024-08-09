@@ -1,6 +1,6 @@
 module.exports = (Sequelize , DataTypes) => {
     const model = Sequelize.define('Reservation',{
-       booking_id: {
+        booking_id: {
             type: DataTypes.STRING(30),
             primaryKey: true
         },
@@ -24,7 +24,19 @@ module.exports = (Sequelize , DataTypes) => {
             type: DataTypes.DATE(6),
             notNull: true
         },
+        status: {
+            type: DataTypes.STRING(20),
+            notNull: true
+        },
+        pic_receipt_part: {
+            type: DataTypes.TEXT,
+            notNull: true
+        },
         since_date: {
+            type: DataTypes.DATE(6),
+            notNull: true
+        },
+        update_date: {
             type: DataTypes.DATE(6),
             notNull: true
         },
