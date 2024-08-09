@@ -3,8 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const userRoutes = require('./routes/users/user');
-const db = require('./models/users');
-//const mariadb = require('mariadb');
+const db = require('./models');
 
 app.use(cors());
 app.use(express.json());

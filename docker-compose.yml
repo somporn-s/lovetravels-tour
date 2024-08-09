@@ -5,12 +5,14 @@ services:
     image: mariadb:10.11.6
     #restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: myRoot
-      MYSQL_DATABASE: db_tour
-      MYSQL_USER: user_tour
-      MYSQL_PASSWORD: pass_tour
+      - MYSQL_ROOT_PASSWORD = ${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE = ${MYSQL_DATABASE}
+      - MYSQL_USER = ${MYSQL_USER}
+      - MYSQL_PASSWORD = ${MYSQL_PASSWORD}
     ports:
       - "9906:3306"
+    env_file:
+      - ./secret.env.dev
     #volumes:
       #- '/path/on/host:/var/lib/mysql'
   phpmyadmin:
@@ -57,7 +59,8 @@ services:
 #npm i express cors dotenv
 
 #docker ps //check status images
-#docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $INSTANCE_ID
+#docker ps
+#docker inspect [container_id]
 
 #docker-compose
 #docker-compose up --build
