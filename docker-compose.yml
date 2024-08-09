@@ -5,12 +5,14 @@ services:
     image: mariadb:10.11.6
     #restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: "root_DB_tuor"
-      MYSQL_DATABASE: "db_tour"
-      MYSQL_USER: "user_tour"
-      MYSQL_PASSWORD: "pass_tour"
+      MYSQL_ROOT_PASSWORD: myRoot
+      MYSQL_DATABASE: db_tour
+      MYSQL_USER: user_tour
+      MYSQL_PASSWORD: pass_tour
     ports:
       - "9906:3306"
+    #volumes:
+      #- '/path/on/host:/var/lib/mysql'
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
@@ -20,7 +22,7 @@ services:
       PMA_HOST: db
     depends_on:
       - db
-  backennd:
+  backend:
     # image: node
     container_name: backend-nodejs-tour
     build: ./backend
@@ -45,8 +47,7 @@ services:
     stdin_open: true
     depends_on:
       - db
-      - backennd
-
+      - backend
 #frontend
 #npm init
 #npx create-react-app [projectname] || npm install -g create-react-app
@@ -55,6 +56,10 @@ services:
 #npm init
 #npm i express cors dotenv
 
+#docker ps //check status images
+#docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $INSTANCE_ID
+
 #docker-compose
 #docker-compose up --build
 #docker-compose down -v
+#docker-compose down && docker-compose build --no-cache && docker-compose up
