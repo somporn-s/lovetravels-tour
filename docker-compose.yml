@@ -12,9 +12,9 @@ services:
     ports:
       - "9906:3306"
     env_file:
-      - ./secret.env.dev
-    #volumes:
-      #- '/path/on/host:/var/lib/mysql'
+      - ./config/secret.env.dev
+    volumes:
+      - "./config/db_tour.sql:/docker-entrypoint-initdb.d/1.sql"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
