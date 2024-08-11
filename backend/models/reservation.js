@@ -28,7 +28,7 @@ module.exports = (Sequelize , DataTypes) => {
             type: DataTypes.STRING(20),
             notNull: true
         },
-        pic_receipt_part: {
+        pic_receipt_path: {
             type: DataTypes.TEXT,
             notNull: true
         },

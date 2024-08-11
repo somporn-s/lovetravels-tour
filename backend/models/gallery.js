@@ -5,7 +5,7 @@ module.exports = (Sequelize , DataTypes) => {
             autoIncrement: true,
             primaryKey: true,
         },
-        pic_part: {
+        pic_path: {
             type: DataTypes.TEXT,
             notNull: true
         },

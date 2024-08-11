@@ -24,7 +24,7 @@ module.exports = (Sequelize , DataTypes) => {
             type: DataTypes.STRING(20),
             notNull: true
         },
-        pic_payment_part: {
+        pic_payment_path: {
             type: DataTypes.TEXT,
             notNull: true
         },

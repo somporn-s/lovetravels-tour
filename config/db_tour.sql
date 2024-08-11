@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Aug 09, 2024 at 05:31 PM
+-- Generation Time: Aug 11, 2024 at 06:21 PM
 -- Server version: 10.11.6-MariaDB-1:10.11.6+maria~ubu2204
 -- PHP Version: 8.2.8
 
@@ -34,7 +34,7 @@ CREATE TABLE `agent` (
   `email` varchar(255) DEFAULT NULL,
   `company_name` varchar(255) DEFAULT NULL,
   `tel` varchar(20) DEFAULT NULL,
-  `pic_payment_part` text DEFAULT NULL,
+  `pic_payment_path` text DEFAULT NULL,
   `update_date` datetime(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -46,7 +46,7 @@ CREATE TABLE `agent` (
 
 CREATE TABLE `gallery` (
   `id` int(11) NOT NULL,
-  `pic_part` text DEFAULT NULL,
+  `pic_path` text DEFAULT NULL,
   `type` varchar(10) DEFAULT NULL,
   `update_date` datetime(6) DEFAULT NULL,
   `package_id` int(11) DEFAULT NULL
@@ -62,6 +62,7 @@ CREATE TABLE `member` (
   `uid` int(11) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` text DEFAULT NULL,
+  `conf_email` text DEFAULT NULL,
   `update_date` datetime(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -99,7 +100,7 @@ CREATE TABLE `reservation` (
   `check_in_date` datetime(6) DEFAULT NULL,
   `check_out_date` datetime(6) DEFAULT NULL,
   `status` varchar(20) DEFAULT NULL,
-  `pic_receipt_part` text DEFAULT NULL,
+  `pic_receipt_path` text DEFAULT NULL,
   `since_date` datetime(6) DEFAULT NULL,
   `update_date` datetime(6) DEFAULT NULL,
   `uid` int(11) DEFAULT NULL,
@@ -158,7 +159,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `package_tour`

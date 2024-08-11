@@ -13,6 +13,10 @@ module.exports = (Sequelize , DataTypes) => {
             type: DataTypes.TEXT,
             notNull: true
         },
+        conf_email: {
+            type: DataTypes.TEXT,
+            notNull: true
+        },
         update_date: {
             type: DataTypes.DATE(6),
             notNull: true
