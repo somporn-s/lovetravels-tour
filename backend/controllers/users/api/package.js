@@ -20,6 +20,15 @@ const postFindPackage = async (req,res) => {
     });
     res.status(200).send({message: result});
 }
+const detailDescription = async (req,res) => {
+    const queryText = 'SELECT p.package_name,p.description,p.company_name,p.price_person,p.discount,g.pic_path,g.type FROM package_tour AS p LEFT JOIN gallery AS g ON p.package_id = g.package_id WHERE p.package_id = ?';
+    const arrSearch = [req.body.package_id];
+    const result = await sequelize.query(queryText, {
+        replacements: arrSearch,
+        type: QueryTypes.SELECT,
+    });
+    res.status(200).send({message: result});
+}
 module.exports={
     getFindPackage,
     postFindPackage

@@ -1,15 +1,16 @@
 
 const encryptToken = require('./encrypt');
 const datetime = require('./datetime')
-const checkUserToken = async (req, res, next) => {
-  console.log('Time:', datetime.today())
-  // if(!req.body.token || req.body.token !== 'undefined'){
-  //   const verifyed = await encryptToken.decoded(req.body.token);
-  // }else{
+const checkMemberToken = async (req, res, next) => {
+  console.log()
+  if(typeof(req.headers.authorization) !== 'undefined'){
+    const verifyed = await encryptToken.decoded(req.headers.authorization.split(' ')[1]);
+    console.log(verifyed)
+  }else{
     
-  // }
+  }
   next();
 }
 module.exports = {
-    checkUserToken,
+    checkMemberToken,
 };
