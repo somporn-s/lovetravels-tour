@@ -29,7 +29,7 @@ module.exports = (Sequelize , DataTypes) => {
             notNull: true
         },
         update_date: {
-            type: DataTypes.DATE(6),
+            type: DataTypes.DATE,
             notNull: true
         }
     },{

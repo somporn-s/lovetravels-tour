@@ -31,15 +31,15 @@ module.exports = (Sequelize , DataTypes) => {
             notNull: true
         },
         start_date: {
-            type: DataTypes.DATE(6),
+            type: DataTypes.DATE,
             notNull: true
         },
         end_date: {
-            type: DataTypes.DATE(6),
+            type: DataTypes.DATE,
             notNull: true
         },
         update_date: {
-            type: DataTypes.DATE(6),
+            type: DataTypes.DATE,
             notNull: true
         },
         license_id: {

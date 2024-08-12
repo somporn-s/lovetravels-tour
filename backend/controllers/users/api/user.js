@@ -2,6 +2,7 @@ const db = require('../../../models');
 const {sequelize,Sequelize} = require('../../../models');
 const { QueryTypes } = require('sequelize');
 const bcryptjs = require('bcryptjs');
+const datetime = require('../datetime');
 const encryptToken = require('../encrypt');
 
 const loginUser = async (req,res) => {
@@ -41,7 +42,7 @@ const registerUser = async (req,res) => {
         result = await db.Member.create({
             email: body.email,
             password: bcryptjs.hashSync(body.conf_pass,bcryptjs.genSaltSync(12)),
-            update_date: sequelize.literal('CURRENT_TIMESTAMP')
+            update_date: datetime.today()
         });
         return res.status(201).send({message: 'Register successfully !!'})
     }

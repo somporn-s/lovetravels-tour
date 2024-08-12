@@ -5,20 +5,23 @@
     "database": "db_tour",
     "host": "172.19.0.1",
     "port": "9906",
-    "dialect": "mariadb"
+    "dialect": "mariadb",
+    "timezone": "Asia/Bangkok"
   },
   "test": {
     "username": "root",
     "password": null,
     "database": "database_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "timezone": "Asia/Bangkok"
   },
   "production": {
     "username": "root",
     "password": null,
     "database": "database_production",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "timezone": "Asia/Bangkok"
   }
 }
