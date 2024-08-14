@@ -5,7 +5,7 @@ const packageControllers = require('../../controllers/users/api/package');
 const bookingControllers = require('../../controllers/users/api/booking');
 const Middlewares = require('../../controllers/users/middleware');
 
-router.post('/login',Middlewares.checkMemberToken,userControllers.loginUser);
+router.post('/login',userControllers.loginUser);
 router.post('/register',userControllers.registerUser)
 
 router.get('/search',packageControllers.getFindPackage)
