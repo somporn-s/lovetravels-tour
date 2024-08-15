@@ -19,7 +19,7 @@ function Register(props) {
         axios.post('user/register',body).then(
             res => {
                 notification.success({
-                    message: `Register successfully by ${values.nickname}`
+                    message: `Register successfully by ${values.email}`
                 });
                navigate("user/login");
             }
@@ -31,6 +31,9 @@ function Register(props) {
             }
         );
     };
+    const toLogin = () => {
+        navigate("/user/login");
+    }
 
     return (
         <Row justify="center" >
@@ -101,9 +104,12 @@ function Register(props) {
                         >
                             <Input.Password />
                         </Form.Item>
+                        <Row style={{float: 'right'}}>
+                            <Button onClick={toLogin} className="Button" htmlType="button" type="link">Sign in</Button>
                             <Button className="Button" type="primary" htmlType="submit">
                                 Register
                             </Button>
+                        </Row>
                     </Form>
                 </div>
             </Col>

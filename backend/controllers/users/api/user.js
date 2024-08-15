@@ -12,7 +12,7 @@ const loginUser = async (req,res) => {
         type: QueryTypes.SELECT,
     });
     if (!Object.keys(result).length){
-        res.status(400).send({message :`user not found !!`})
+        res.status(400).json({message :`user not found !!`})
     }else{
         const dePass = bcryptjs.compareSync(body.pass,result[0].password);
         if(!dePass){
@@ -25,7 +25,7 @@ const loginUser = async (req,res) => {
             },{
                 where: {uid:result[0].uid,email:result[0].email}
             })
-            res.status(200).json({token: encoded,refreshToken: reEncoded,message :`user => ${result[0].email} login OK !!`})
+            res.status(200).json({accessToken: encoded,refreshToken: reEncoded,message :`user => ${result[0].email} login OK !!`})
         }
     }
 };

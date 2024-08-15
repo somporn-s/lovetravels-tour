@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Row, Col, Divider, notification } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import axios from '../../../routers/axios';
+import LocalStorages from '../../../services/localStorages'
 import { useNavigate } from 'react-router-dom';
 
 const layout = {
@@ -10,7 +11,7 @@ const layout = {
 };
 
 function Login(props) {
-    const navigate = useNavigate();
+    let navigate = useNavigate();
     const onFinish = values => {
         const body = {
             email : values.email,
@@ -19,20 +20,22 @@ function Login(props) {
         axios.post("/user/login",body).then(res => {
             props.setRole("member");
                 notification.success({
-                    message: `Login successfully by ${values.username}`
+                    message: `Login successfully by ${values.email}`
                 });
-               navigate("user/search");
+                LocalStorages.setToken(res.data)
+                //navigate("/user/search");
             }
         ).catch(
-            res => {
-                console.log('faill : '+res)
+            err => {
                 notification.error({
-                    message: `Register fail by ${res}`
+                    message: `status : ${err.response.status} fail message : ${err.response.data.message}`
                 });
             }
         );
     };
-
+    const toRegis = () => {
+        navigate("/user/register");
+    }
     return (
         <Row justify="center">
             <Col xs={23} sm={23} md={23} lg={14} xl={14} xxl={12}>
@@ -64,10 +67,10 @@ function Login(props) {
                         >
                             <Input.Password />
                         </Form.Item>
-
-                        <Button className="Button" type="primary" htmlType="submit">
-                            Submit
-                        </Button>
+                        <Row style={{float: 'right'}}>
+                            <Button onClick={toRegis} className="Button" htmlType="button" type="link">Sign up</Button>
+                            <Button className="Button" type="primary" htmlType="submit">Submit</Button>
+                        </Row>
                     </Form>
                 </div>
             </Col>

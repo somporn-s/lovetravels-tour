@@ -3,6 +3,7 @@ module.exports = (Sequelize , DataTypes) => {
         license_id: {
             type: DataTypes.STRING(100),
             primaryKey: true,
+            unique: true
         },
         username: {
             type: DataTypes.STRING(100),
@@ -14,7 +15,8 @@ module.exports = (Sequelize , DataTypes) => {
         },
         email: {
             type: DataTypes.STRING,
-            notNull: true
+            notNull: true,
+            unique: true
         },
         company_name: {
             type: DataTypes.STRING,

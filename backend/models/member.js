@@ -7,7 +7,8 @@ module.exports = (Sequelize , DataTypes) => {
         },
         email: {
             type: DataTypes.STRING,
-            notNull: true
+            notNull: true,
+            unique: true
         },
         password: {
             type: DataTypes.TEXT,
