@@ -1,10 +1,11 @@
-import React from 'react'
+import React,{useState} from 'react'
 import ConfigRoutes from '../../routers/routers';
 import { Routes,Route,Navigate } from 'react-router-dom';
-import Header from '../../components/user/pages/Header';
+import { useSelector } from 'react-redux';
 function PrivateRoutes(props) {
-    const role = props.role || "user"
-
+    const { role } = useSelector((state) => state.Roles)
+    //const [role , setRole] = useState(getRole)
+    //const role = LocalStorates.getRole()
     const allowedRoutes = ConfigRoutes[role].allowedRoutes;
     const redirectRoutes = ConfigRoutes[role].redirectRoutes;
 
@@ -13,7 +14,7 @@ function PrivateRoutes(props) {
         {allowedRoutes.map(route => <Route 
             path={route.url}
             keys={route.url}
-            element={<route.component setRole={props.setRole}><Header /></route.component>}
+            element={<route.component />}
          />)}
         <Route path="*" element={<Navigate to={redirectRoutes} />} />
     </Routes>

@@ -1,19 +1,14 @@
-import React,{useState} from 'react';
 import PermissionsRoutes from './components/permissions-routes/permissions';
-import LocalStorates from './services/localStorages';
-import Header from './components/user/pages/Header';
-//import axios from 'axios'
+import { Provider } from 'react-redux';
+import store from './services/store/Store';
 
-function App() {
-  const [role,setRole] = useState(LocalStorates.getRole());
-  let setHeader = '';
-  if(window.location.pathname !== '/user/login' && window.location.pathname !== '/user/register') setHeader = <Header />;
+function App () {
   return (
     <div className="App">
-        {setHeader}
-        {<PermissionsRoutes role={role} setRole={setRole}/>}
+      <Provider store={store}>
+        {<PermissionsRoutes />}
+      </Provider>
     </div>
   );
 }
-
 export default App;

@@ -5,24 +5,27 @@ import axios from '../../../routers/axios';
 import LocalStorages from '../../../services/localStorages'
 import { useNavigate } from 'react-router-dom';
 
+import {useDispatch} from 'react-redux'
+import { updateRole } from '../../../services/store/Reducer'
 const layout = {
     labelCol: { xs: 24, sm: 5, md: 4, lg: 5, xl: 4, xxl: 3 },
     wrapperCol: { xs: 24, sm: 19, md: 20, lg: 19, xl: 20, xxl: 21 },
 };
 
 function Login(props) {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const dispatch = useDispatch(); 
     const onFinish = values => {
         const body = {
             email : values.email,
             pass : values.pass
         }
         axios.post("/user/login",body).then(res => {
-            props.setRole("member");
                 notification.success({
                     message: `Login successfully by ${values.email}`
                 });
                 LocalStorages.setToken(res.data)
+                dispatch(updateRole(LocalStorages.getRole()))
                 //navigate("/user/search");
             }
         ).catch(
