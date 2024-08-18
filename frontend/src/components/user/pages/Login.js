@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Row, Col, Divider, notification } from 'antd';
+import { Form, Input, Button, Flex, Row, Col, Divider, notification } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import axios from '../../../routers/axios';
 import LocalStorages from '../../../services/localStorages'
@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 
 import {useDispatch} from 'react-redux'
 import { updateRole } from '../../../services/store/Reducer'
+
+import './allStyle.css';
 const layout = {
     labelCol: { xs: 24, sm: 5, md: 4, lg: 5, xl: 4, xxl: 3 },
     wrapperCol: { xs: 24, sm: 19, md: 20, lg: 19, xl: 20, xxl: 21 },
@@ -39,15 +41,17 @@ function Login(props) {
     const toRegis = () => {
         navigate("/user/register");
     }
+    const toSearch = () => {
+        navigate("/user/search");
+    }
     return (
+        <div >
         <Row justify="center">
-            <Col xs={23} sm={23} md={23} lg={14} xl={14} xxl={12}>
+            <Col className="card_bg" xs={23} sm={23} md={23} lg={14} xl={14} xxl={12}>
                 <div className="Form">
-                    <Row justify="center">
-                        <Title level={2} className="Title">
-                            Login
-                    </Title>
-                    </Row>
+                    <Flex justify="left">
+                        <Title level={4} className="Title">Login</Title>
+                    </Flex>
                     <Divider className="Divider" />
                     <Form
                         className="App"
@@ -58,6 +62,8 @@ function Login(props) {
                         <Form.Item
                             label="Email"
                             name="email"
+                            type="email"
+                            size="large"
                             rules={[{ required: true, message: 'Please input your username!' }]}
                         >
                             <Input />
@@ -66,14 +72,15 @@ function Login(props) {
                         <Form.Item
                             label="Password"
                             name="pass"
+                            size="large"
                             rules={[{ required: true, message: 'Please input your password!' }]}
                         >
                             <Input.Password />
                         </Form.Item>
-                        <Row style={{float: 'right'}}>
-                            <Button onClick={toRegis} className="Button" htmlType="button" type="link">Sign up</Button>
-                            <Button className="Button" type="primary" htmlType="submit">Submit</Button>
-                        </Row>
+                        <Flex gap="middle" justify="right" horizontal style={{}}>
+                            <Button onClick={toRegis} className="Button button_link_style" htmlType="button" type="link" size="large">Sign up</Button>
+                            <Button className="Button button_style" htmlType="submit" size="large">Login</Button>
+                        </Flex>
                     </Form>
                 </div>
                 <Divider
@@ -84,9 +91,10 @@ function Login(props) {
                     >
                     <span style={{fontSize:'14px',fontWeight:'regular',color:'gray'}}>OR</span>
                 </Divider>
-                <div style={{textAlign:'center'}}><Button className="Button bg_color" htmlType="button">Find Package Tour</Button></div>
+                <div style={{textAlign:'center'}}><Button className="Button button_style" htmlType="button" size="large" onClick={toSearch}>Find Package Tour</Button></div>
             </Col>
         </Row>
+        </div>
     );
 }
 

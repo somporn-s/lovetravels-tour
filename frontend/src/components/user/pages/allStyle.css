@@ -10,7 +10,38 @@
         display: none;
     }
 }
+textarea,input[type] {
+    border-color: #7BBCB0;
+    background-color: lightgray !important;
+}
+textarea,input[type]:hover {
+    border-color: #7BBCB0;
+    background-color: lightgray !important;
+}
+textarea,input[type]:after {
+    border-color: #7BBCB0;
+    background-color: lightgray !important;
+}
+.ant-input-affix-wrapper {
+    background-color: lightgray !important;
+    padding: 4px 10px !important;
+}
 .bg_color{
     background-color: #7BBCB0;
     color:white;
+    border-radius: 3px;
+}
+.button_style{
+    background-color: #7BBCB0;
+    color: white;
+    border-radius: 3px;
+}
+.button_link_style {
+    color:#7BBCB0;
+    text-decoration: underline;
+}
+.card_bg{
+    padding : 20px 20px ;
+    border-radius: 3px;
+    box-shadow: 3px 3px 5px #888888;
 }
