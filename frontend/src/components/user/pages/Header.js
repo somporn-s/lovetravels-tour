@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import { Drawer,Menu,notification } from 'antd';
+import { Drawer,Menu,Flex,notification } from 'antd';
 // import Title from 'antd/lib/typography/Title';
 // import axios from '../../../routers/axios';
 import LocalStorages from '../../../services/localStorages'
@@ -7,21 +7,23 @@ import { useNavigate } from 'react-router-dom';
 import {MenuOutlined} from '@ant-design/icons';
 import {useDispatch} from 'react-redux'
 import { updateRole } from '../../../services/store/Reducer'
-import allStyle from './allStyle.css';
+import './allStyle.css';
 
 function Header(props) {
     const dispatch = useDispatch(); 
     const [openMenu,setOpenMenu] = useState(false);
     useEffect(() => {
-        //AppMenu(openMenu)
         dispatch(updateRole(LocalStorages.getRole()))
     })
     return (
         <div>
-            <div style={{backgroundColor:'orange',height:'40px',justifyContent:'right'}}>
-                <MenuOutlined style={{color:'black',fontSize:'20px',padding:'10px 0 0 10px'}} onClick={() =>{setOpenMenu(true)}}/>
-            </div>
-            <AppMenu />
+            <Flex gap="middle" justify="space-between" horizontal style={{backgroundColor:'#7BBCB0',height:'45px'}}  className="iconMenu">
+                <div className='bg_color' style={{fontSize:'20px',padding:'5px 0 0 10px'}}>LoveTravels</div>
+                <div><MenuOutlined style={{color:'white',fontSize:'20px',padding:'10px 10px 0 0'}} onClick={() =>{setOpenMenu(true)}}/></div>
+            </Flex>
+            <span className="headerMenu">
+                <AppMenu />
+            </span>
             <Drawer 
             style={{backgroundColor:"#7BBCB0",color:"white"}}
             placement='left'
@@ -81,9 +83,10 @@ function AppMenu({isInline=false}){
                 ]
     }
     return (
-        <div>
+        <div style={{backgroundColor:"#7BBCB0",overflow: 'auto'}}>
+            <div className='bg_color' style={{fontSize:'20px',padding:'8px 0 0 10px',float:'left'}}>LoveTravels</div>
             <Menu
-                style={{backgroundColor:"#7BBCB0"}}
+                style={isInline ? {backgroundColor:"#7BBCB0",float: 'left'}:{backgroundColor:"#7BBCB0",float: 'right',width:'380px'}}
                 mode={isInline ? "inline" : "horizontal"}
                 items={items}
                 onClick={(e) => {
