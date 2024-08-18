@@ -76,6 +76,15 @@ function Login(props) {
                         </Row>
                     </Form>
                 </div>
+                <Divider
+                    variant="dotted"
+                    style={{
+                        borderColor: 'gray'
+                    }}
+                    >
+                    <span style={{fontSize:'14px',fontWeight:'regular',color:'gray'}}>OR</span>
+                </Divider>
+                <div style={{textAlign:'center'}}><Button className="Button bg_color" htmlType="button">Find Package Tour</Button></div>
             </Col>
         </Row>
     );

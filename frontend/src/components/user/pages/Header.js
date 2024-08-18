@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import { Drawer,Menu,Flex,notification } from 'antd';
+import { Drawer,Menu,Flex,Divider,notification } from 'antd';
 // import Title from 'antd/lib/typography/Title';
 // import axios from '../../../routers/axios';
 import LocalStorages from '../../../services/localStorages'
@@ -17,9 +17,9 @@ function Header(props) {
     })
     return (
         <div>
-            <Flex gap="middle" justify="space-between" horizontal style={{backgroundColor:'#7BBCB0',height:'45px'}}  className="iconMenu">
-                <div className='bg_color' style={{fontSize:'20px',padding:'5px 0 0 10px'}}>LoveTravels</div>
-                <div><MenuOutlined style={{color:'white',fontSize:'20px',padding:'10px 10px 0 0'}} onClick={() =>{setOpenMenu(true)}}/></div>
+            <Flex gap="middle" justify="space-between" horizontal style={{backgroundColor:'#7BBCB0'}}  className="iconMenu">
+                <div className='bg_color' style={{fontSize:'20px',padding:'10px 0 0 10px',marginBottom:"20px"}}>LoveTravels</div>
+                <div><MenuOutlined style={{color:'white',fontSize:'25px',padding:'15px 20px 0 0'}} onClick={() =>{setOpenMenu(true)}}/></div>
             </Flex>
             <span className="headerMenu">
                 <AppMenu />
@@ -82,11 +82,29 @@ function AppMenu({isInline=false}){
                     }
                 ]
     }
+    let styleForMenu = {}
+    if(isInline){
+        styleForMenu = {backgroundColor:"#7BBCB0",float: 'left'}
+    }else if(LocalStorages.getRole() === 'member'){
+        styleForMenu = {backgroundColor:"#7BBCB0",float: 'right',width:'380px'}
+    }else{
+        styleForMenu = {backgroundColor:"#7BBCB0",float: 'right',width:'180px'}
+    }
     return (
         <div style={{backgroundColor:"#7BBCB0",overflow: 'auto'}}>
-            <div className='bg_color' style={{fontSize:'20px',padding:'8px 0 0 10px',float:'left'}}>LoveTravels</div>
+            <div className='bg_color' style={{fontSize:'20px',padding:'8px 0 0 10px',marginBottom:"20px",float:'left'}}>LoveTravels</div>
+            <div className="iconMenu">
+            <Divider
+                variant="dotted"
+                style={{
+                    borderColor: 'white'
+                }}
+                >
+                <span style={{fontSize:'14px',fontWeight:'regular',color:'white'}}>MENU</span>
+            </Divider>
+            </div>
             <Menu
-                style={isInline ? {backgroundColor:"#7BBCB0",float: 'left'}:{backgroundColor:"#7BBCB0",float: 'right',width:'380px'}}
+                style={styleForMenu}
                 mode={isInline ? "inline" : "horizontal"}
                 items={items}
                 onClick={(e) => {
