@@ -43,7 +43,7 @@ const registerUser = async (req,res) => {
         type: QueryTypes.SELECT,
     });
     if (Object.keys(result).length){
-        return res.status(200).send({message : `Have ${body.email} already !!`})
+        return res.status(400).send({message : `Have ${body.email} already !!`})
     }else{
         result = await db.Member.create({
             email: body.email,

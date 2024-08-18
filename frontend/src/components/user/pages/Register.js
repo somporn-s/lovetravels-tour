@@ -24,9 +24,9 @@ function Register(props) {
                navigate("user/login");
             }
         ).catch(
-            res => {
+            err => {
                 notification.error({
-                    message: `Register fail by ${res}`
+                    message: `Register fail status : ${err.response.status} Message : ${err.response.data.message}`
                 });
             }
         );
