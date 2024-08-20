@@ -7,14 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import {MenuOutlined} from '@ant-design/icons';
 import {useDispatch} from 'react-redux'
 import { updateRole } from '../../../services/store/Reducer'
+import { useSelector } from 'react-redux';
 import './allStyle.css';
 
 function Header(props) {
-    const dispatch = useDispatch(); 
+    const { role } = useSelector((state) => state.Roles)
     const [openMenu,setOpenMenu] = useState(false);
-    useEffect(() => {
-        dispatch(updateRole(LocalStorages.getRole()))
-    })
+    console.log('header : '+role)
     return (
         <div>
             <Flex gap="middle" justify="space-between" horizontal style={{backgroundColor:'#7BBCB0'}}  className="iconMenu">
@@ -32,24 +31,25 @@ function Header(props) {
                 setOpenMenu(false)
             }} 
             closable={false} >
-                <AppMenu isInline />
+                <AppMenu isInline={false}/>
             </Drawer>
         </div>
         )
 }
-function AppMenu({isInline=false}){
+function AppMenu(isInline){
     const navigate = useNavigate();
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
+    const { role } = useSelector((state) => state.Roles) 
     const Logout = () => {
         LocalStorages.removeToken('all');
-        dispatch(updateRole(LocalStorages.getRole()))
+        dispatch(updateRole('user'))
         notification.error({
                     message: `Logout successfully !!`
                 });
         navigate("/user/login");
     };
     let items = [];
-    if(LocalStorages.getRole() === 'member'){
+    if(role === 'member'){
         items = [
                     {
                         label:"Search",
@@ -85,7 +85,7 @@ function AppMenu({isInline=false}){
     let styleForMenu = {}
     if(isInline){
         styleForMenu = {backgroundColor:"#7BBCB0",float: 'left'}
-    }else if(LocalStorages.getRole() === 'member'){
+    }else if(role === 'member'){
         styleForMenu = {backgroundColor:"#7BBCB0",float: 'right',width:'380px'}
     }else{
         styleForMenu = {backgroundColor:"#7BBCB0",float: 'right',width:'180px'}

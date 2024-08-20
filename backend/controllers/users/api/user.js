@@ -18,14 +18,14 @@ const loginUser = async (req,res) => {
         if(!dePass){
             res.status(400).send({message: "Username or Password is wrong !!"})
         }else{
-            const encoded = await encryptToken.encoded({email: result[0].email})
-            const reEncoded = await encryptToken.reEncoded({email: result[0].email})
+            const encoded = await encryptToken.encoded({email: result[0].email,typeRole: 'member'})
+            const reEncoded = await encryptToken.reEncoded({email: result[0].email,typeRole: 'member'})
             await db.Member.update({
                 update_date: datetime.today()
             },{
                 where: {uid:result[0].uid,email:result[0].email}
             })
-            res.status(200).json({accessToken: encoded,refreshToken: reEncoded,message :`user => ${result[0].email} login OK !!`})
+            res.status(200).json({accessToken: encoded,refreshToken: reEncoded,typeRole: 'member',message :`user => ${result[0].email} login OK !!`})
         }
     }
 };

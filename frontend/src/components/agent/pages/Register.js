@@ -1,24 +1,182 @@
 import React from 'react';
-//import { Form, Input, Button, Row, Col, Divider, notification } from 'antd';
-//import Title from 'antd/lib/typography/Title';
-//import axios from '../../config/axios';
-//import { useNavigate } from 'react-router-dom';
+import { Form, Input, Button, Flex, Row, Col, Divider, notification } from 'antd';
+import Title from 'antd/lib/typography/Title';
+import axios from '../../../routers/axios';
+import { useNavigate } from 'react-router-dom';
+
+// import Upload from './Upload'
+import './allStyle.css';
+
+const layout = {
+    labelCol: { xs: 24, sm: 7, md: 6, lg: 6, xl: 5, xxl: 4 },
+    wrapperCol: { xs: 24, sm: 17, md: 18, lg: 18, xl: 19, xxl: 20 },
+};
 function Register(props) {
+    const navigate = useNavigate();
+    const onFinish = values => {
+        //console.log('Received values of form: ', values);
+        const body = {
+            license: values.license,
+            company: values.company,
+            username: values.username,
+            email: values.email,
+            pass: values.password,
+            conf_pass: values.confirm,
+            phone: values.phone
+        }
+        axios.post('agent/register',body).then(
+            res => {
+                notification.success({
+                    message: `Register successfully by ${values.email}`
+                });
+               navigate("agent/login");
+            }
+        ).catch(
+            err => {
+                notification.error({
+                    message: `Register fail status : ${err.response.status} Message : ${err.response.data.message}`
+                });
+            }
+        );
+    };
+    const toLogin = () => {
+        navigate("/agent/login");
+    }
+
     return (
-        <div>
-          <h3>Register agent</h3>
-          <form action="http://localhost:8080/agent/register" method="post">
-            <input type="text" name="license" placeholder="license"/>
-            <input type="text" name="user" placeholder="user"/>
-            <input type="password" name="pass" placeholder="pass"/>
-            <input type="password" name="conf_pass" placeholder="conf_pass"/>
-            <input type="text" name="company" placeholder="company"/>
-            <input type="email" name="email" placeholder="email"/>
-            <input type="tel" name="phone" placeholder="phone"/>
-            <input type="file" name="payment" placeholder="qrcode payment" />
-            <button type="submit">register</button>
-          </form>
-        </div>
-    )
+        <Row justify="center" >
+            <Col className="card_bg" xs={23} sm={23} md={23} lg={14} xl={14} xxl={12}>
+                <div className="Form">
+                    <Flex justify="left">
+                        <Title level={4} className="Title">Register</Title>
+                    </Flex>
+                    <Divider className="Divider" />
+                    <Form
+                        {...layout}
+                        onFinish={onFinish}
+                        style={{ width: "100%" }}
+                    >   
+                        <Form.Item
+                            name="license"
+                            label="License ID"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your License ID!',
+                                },
+                            ]}
+                        >
+                        <Input />
+                        </Form.Item>
+                        <Form.Item
+                            name="company"
+                            label="Company Name"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your Company Name!',
+                                },
+                            ]}
+                        >
+                        <Input />
+                        </Form.Item>
+                        <Form.Item
+                            name="username"
+                            label="Username"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your Username!',
+                                },
+                            ]}
+                        >
+                        <Input />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="password"
+                            label="Password"
+                            hasFeedback
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your Password!',
+                                },
+                            ]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="confirm"
+                            label="Confirm Password"
+                            hasFeedback
+                            dependencies={["password"]} //if password field change rules in confirm password will run again
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please confirm your password!',
+                                },({getFieldValue}) => ({ //{} noreturn | ({}) return obj
+                                    validator(rule, value){
+                                        if(!value || getFieldValue('password') === value){
+                                            return Promise.resolve();
+                                        }
+                                        return Promise.reject("Confirm password must equal password")
+                                    }
+                                }) 
+                            ]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="email"
+                            label="E-mail"
+                            rules={[
+                                {
+                                    type: 'email',
+                                    message: 'The input is not valid E-mail!',
+                                },
+                                {
+                                    required: true,
+                                    message: 'Please input your E-mail!',
+                                },
+                            ]}
+                        >
+                        <Input />
+                        </Form.Item>
+                        
+                        <Form.Item
+                            name="phone"
+                            label="Phone"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your Phone!',
+                                },
+                                {
+                                    type: 'tel',
+                                    message: 'The input is not valid Phone!',
+                                },
+                            ]}
+                        >
+                        <Input count={{
+                                show: true,
+                                max: 10,
+                            }}/>
+                        </Form.Item>
+                        {/* <Upload /> */}
+                        <Row style={{float: 'right'}}>
+                            <Button onClick={toLogin} className="Button button_link_style" htmlType="button" size="large" type="link">Sign in</Button>
+                            <Button className="Button button_style " type="primary" size="large" htmlType="submit">
+                                Register
+                            </Button>
+                        </Row>
+                    </Form>
+                </div>
+            </Col>
+        </Row>
+    );
 }
-export default Register
+
+export default Register;

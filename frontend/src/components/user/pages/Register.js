@@ -1,8 +1,11 @@
 import React from 'react';
-import { Form, Input, Button, Row, Col, Divider, notification } from 'antd';
+import { Form, Input, Button, Flex, Row, Col, Divider, notification } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import axios from '../../../routers/axios';
 import { useNavigate } from 'react-router-dom';
+
+import './allStyle.css';
+
 const layout = {
     labelCol: { xs: 24, sm: 7, md: 6, lg: 6, xl: 5, xxl: 4 },
     wrapperCol: { xs: 24, sm: 17, md: 18, lg: 18, xl: 19, xxl: 20 },
@@ -37,15 +40,11 @@ function Register(props) {
 
     return (
         <Row justify="center" >
-            <Col xs={23} sm={23} md={23} lg={14} xl={14} xxl={12}>
-                <div
-                    className="Form"
-                >
-                    <Row justify="center">
-                        <Title level={2} className="Title">
-                            Register
-                        </Title>
-                    </Row>
+            <Col className="card_bg" xs={23} sm={23} md={23} lg={14} xl={14} xxl={12}>
+                <div className="Form">
+                    <Flex justify="left">
+                        <Title level={4} className="Title">Register</Title>
+                    </Flex>
                     <Divider className="Divider" />
                     <Form
                         {...layout}
@@ -66,7 +65,7 @@ function Register(props) {
                                 },
                             ]}
                         >
-                            <Input />
+                        <Input />
                         </Form.Item>
 
                         <Form.Item
@@ -105,8 +104,8 @@ function Register(props) {
                             <Input.Password />
                         </Form.Item>
                         <Row style={{float: 'right'}}>
-                            <Button onClick={toLogin} className="Button" htmlType="button" type="link">Sign in</Button>
-                            <Button className="Button" type="primary" htmlType="submit">
+                            <Button onClick={toLogin} className="Button button_link_style" htmlType="button" size="large" type="link">Sign in</Button>
+                            <Button className="Button button_style " type="primary" size="large" htmlType="submit">
                                 Register
                             </Button>
                         </Row>

@@ -59,7 +59,9 @@ const permissions = {
             components.userLogin,
             components.userRegister,
             components.userSearch,
-            components.userDetail
+            components.userDetail,
+            components.agentLogin,
+            components.agentRegister,
         ],
         redirectRoutes: "user/login"
     },
@@ -77,7 +79,8 @@ const permissions = {
     agent : {
         allowedRoutes: [
             components.agentLogin,
-            components.agentRegister
+            components.agentRegister,
+            components.agentBooking,
         ],
         redirectRoutes: "/agent/login"
     }

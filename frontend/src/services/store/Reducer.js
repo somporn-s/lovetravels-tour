@@ -1,7 +1,6 @@
-import { createSlice, current } from '@reduxjs/toolkit'
-import LocalStorages from '../../services/localStorages'
+import { createSlice ,current } from '@reduxjs/toolkit'
 const initialState = {
-    role: LocalStorages.getRole() || 'user'
+    role: 'user'
 }
 
 const roleStore = createSlice({
@@ -10,7 +9,7 @@ const roleStore = createSlice({
     reducers: {
         updateRole: (state, action) => {
             state.role = action.payload
-            //console.log(current(state))
+            console.log(current(state))
         }
     }
 }) 

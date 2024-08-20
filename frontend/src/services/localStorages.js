@@ -6,6 +6,9 @@ const getToken = () => {
     //return {'accessToken': localStorage.getItem("accessToken"),'refreshToken':localStorage.getItem("refreshToken")}  
     return localStorage.getItem("accessToken");
 }
+// const getReToken = () => {
+//     return localStorage.getItem("refreshToken");
+// }
 const removeToken = (keys) => {
     if(keys === 'all'){
         localStorage.clear()
@@ -13,17 +16,17 @@ const removeToken = (keys) => {
         keys.forEach((e) => localStorage.removeItem(e));
     }
 }
-const getRole = () => {
-    if(getToken()){
-        return "member"
-    }else{
-        return "user"
-    }
-}
+// const getRole = () => {
+//     if(getToken()){
+//         return null
+//     }else{
+//         return "user"
+//     }
+// }
 const permission = {
     setToken,
     getToken,
     removeToken,
-    getRole
+    //getRole
 }
 export default permission

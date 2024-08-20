@@ -2,6 +2,7 @@ const db = require('../../../models');
 const {sequelize,Sequelize} = require('../../../models');
 const { QueryTypes } = require('sequelize');
 const bcryptjs = require('bcryptjs');
+const datetime = require('../datetime');
 const encryptToken = require('../encrypt');
 
 const loginAgent = async (req,res) => {
@@ -17,8 +18,14 @@ const loginAgent = async (req,res) => {
         if(!dePass){
             res.status(400).send({message: "Username or Password is wrong !!"})
         }else{
-            const encoded = await encryptToken.encoded({username: result[0].username})
-            res.status(200).json({token: encoded,message :`user => ${result[0].username} login OK !!`})
+            const encoded = await encryptToken.encoded({email: result[0].email,type: 'agent'})
+            const reEncoded = await encryptToken.reEncoded({email: result[0].email,type: 'agent'})
+            await db.Agent.update({
+                update_date: datetime.today()
+            },{
+                where: {uid:result[0].uid,email:result[0].email}
+            })
+            res.status(200).json({accessToken: encoded,refreshToken: reEncoded,message :`agent => ${result[0].email} login OK !!`})
         }
     }
 }
@@ -32,7 +39,7 @@ const registerAgent = async (req,res) => {
         })
     }
     let result = await sequelize.query('SELECT license_id FROM agent WHERE license_id = ? OR username = ? OR email = ?', {
-        replacements: [body.license,body.user,body.email],
+        replacements: [body.license,body.username,body.email],
         type: QueryTypes.SELECT,
     });
     if (Object.keys(result).length){
@@ -40,13 +47,13 @@ const registerAgent = async (req,res) => {
     }else{
         result = await db.Agent.create({
             license_id: body.license,
-            username: body.user,
+            username: body.username,
             password: bcryptjs.hashSync(body.conf_pass,bcryptjs.genSaltSync(12)),
             email: body.email,
             company_name: body.company,
             tel: body.phone,
-            pic_payment_path: body.payment,
-            update_date: sequelize.literal('CURRENT_TIMESTAMP')
+            // pic_payment_path: body.payment,
+            update_date: datetime.today()
         });
         return res.status(201).send({message: 'Register successfully !!'})
     }

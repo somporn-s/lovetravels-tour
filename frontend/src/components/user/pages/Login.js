@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import {useDispatch} from 'react-redux'
 import { updateRole } from '../../../services/store/Reducer'
 
-import './allStyle.css';
+ import './allStyle.css';
 const layout = {
     labelCol: { xs: 24, sm: 5, md: 4, lg: 5, xl: 4, xxl: 3 },
     wrapperCol: { xs: 24, sm: 19, md: 20, lg: 19, xl: 20, xxl: 21 },
@@ -27,7 +27,8 @@ function Login(props) {
                     message: `Login successfully by ${values.email}`
                 });
                 LocalStorages.setToken(res.data)
-                dispatch(updateRole(LocalStorages.getRole()))
+                dispatch(updateRole(res.data.typeRole))
+                console.log('login : '+ res.data.typeRole)
                 //navigate("/user/search");
             }
         ).catch(
@@ -64,7 +65,16 @@ function Login(props) {
                             name="email"
                             type="email"
                             size="large"
-                            rules={[{ required: true, message: 'Please input your username!' }]}
+                            rules={[
+                                {
+                                    type: 'email',
+                                    message: 'The input is not valid E-mail!',
+                                },
+                                {
+                                    required: true,
+                                    message: 'Please input your E-mail!',
+                                },
+                            ]}
                         >
                             <Input />
                         </Form.Item>
