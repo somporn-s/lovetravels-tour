@@ -19,19 +19,20 @@ function Login(props) {
     const dispatch = useDispatch(); 
     const onFinish = values => {
         const body = {
-            email : values.email,
+            user : values.user,
             pass : values.pass
         }
-        axios.post("/user/login",body).then(res => {
+        axios.post("/agent/login",body).then(res => {
                 notification.success({
-                    message: `Login successfully by ${values.email}`
+                    message: `Login successfully by ${values.user}`
                 });
                 LocalStorages.setToken(res.data)
                 dispatch(updateRole(res.data.typeRole))
-                //navigate("/user/search");
+                navigate("/agent/booking");
             }
         ).catch(
             err => {
+                console.log(err)
                 notification.error({
                     message: `status : ${err.response.status} fail message : ${err.response.data.message}`
                 });
@@ -58,7 +59,7 @@ function Login(props) {
                     >
                         <Form.Item
                             label="Username"
-                            name="username"
+                            name="user"
                             type="text"
                             size="large"
                             rules={[

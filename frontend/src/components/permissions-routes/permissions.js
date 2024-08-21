@@ -4,7 +4,6 @@ import { Routes,Route,Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 function PrivateRoutes(props) {
     const { role } = useSelector((state) => state.Roles)
-    console.log('permission : '+ role)
     const allowedRoutes = ConfigRoutes[role].allowedRoutes;
     const redirectRoutes = ConfigRoutes[role].redirectRoutes;
 

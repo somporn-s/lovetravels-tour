@@ -4,7 +4,7 @@ import Title from 'antd/lib/typography/Title';
 import axios from '../../../routers/axios';
 import { useNavigate } from 'react-router-dom';
 
-// import Upload from './Upload'
+import Upload from './upload'
 import './allStyle.css';
 
 const layout = {
@@ -14,22 +14,23 @@ const layout = {
 function Register(props) {
     const navigate = useNavigate();
     const onFinish = values => {
-        //console.log('Received values of form: ', values);
+        console.log(values);
         const body = {
             license: values.license,
             company: values.company,
             username: values.username,
             email: values.email,
             pass: values.password,
-            conf_pass: values.confirm,
-            phone: values.phone
+            conf_pass: values.conf_pass,
+            phone: values.phone,
+            payment: values.payment
         }
         axios.post('agent/register',body).then(
             res => {
                 notification.success({
                     message: `Register successfully by ${values.email}`
                 });
-               navigate("agent/login");
+               //navigate("agent/login");
             }
         ).catch(
             err => {
@@ -108,7 +109,7 @@ function Register(props) {
                         </Form.Item>
 
                         <Form.Item
-                            name="confirm"
+                            name="conf_pass"
                             label="Confirm Password"
                             hasFeedback
                             dependencies={["password"]} //if password field change rules in confirm password will run again
@@ -165,7 +166,8 @@ function Register(props) {
                                 max: 10,
                             }}/>
                         </Form.Item>
-                        {/* <Upload /> */}
+                        
+                        <Upload />
                         <Row style={{float: 'right'}}>
                             <Button onClick={toLogin} className="Button button_link_style" htmlType="button" size="large" type="link">Sign in</Button>
                             <Button className="Button button_style " type="primary" size="large" htmlType="submit">

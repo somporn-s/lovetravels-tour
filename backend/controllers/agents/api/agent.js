@@ -18,20 +18,19 @@ const loginAgent = async (req,res) => {
         if(!dePass){
             res.status(400).send({message: "Username or Password is wrong !!"})
         }else{
-            const encoded = await encryptToken.encoded({email: result[0].email,type: 'agent'})
-            const reEncoded = await encryptToken.reEncoded({email: result[0].email,type: 'agent'})
+            const encoded = await encryptToken.encoded({username: result[0].username,typeRole: 'agent'})
+            const reEncoded = await encryptToken.reEncoded({username: result[0].username,typeRole: 'agent'})
             await db.Agent.update({
                 update_date: datetime.today()
             },{
-                where: {uid:result[0].uid,email:result[0].email}
+                where: {username:result[0].username}
             })
-            res.status(200).json({accessToken: encoded,refreshToken: reEncoded,message :`agent => ${result[0].email} login OK !!`})
+            res.status(200).json({accessToken: encoded,refreshToken: reEncoded,typeRole: 'agent',message :`agent => ${result[0].username} login OK !!`})
         }
     }
 }
 const registerAgent = async (req,res) => {
     const body = req.body;
-    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(body.email)) {
         return res.status(400).send({
@@ -43,7 +42,7 @@ const registerAgent = async (req,res) => {
         type: QueryTypes.SELECT,
     });
     if (Object.keys(result).length){
-        return res.status(200).send({message : `Have ${body.email} already !!`})
+        return res.status(400).send({message : `Have ${body.email} already !!`})
     }else{
         result = await db.Agent.create({
             license_id: body.license,

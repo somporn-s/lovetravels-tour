@@ -1,4 +1,4 @@
-import { createSlice ,current } from '@reduxjs/toolkit'
+import { createSlice /*,current*/ } from '@reduxjs/toolkit'
 const initialState = {
     role: 'user'
 }
@@ -9,7 +9,7 @@ const roleStore = createSlice({
     reducers: {
         updateRole: (state, action) => {
             state.role = action.payload
-            console.log(current(state))
+            //console.log(current(state))
         }
     }
 }) 

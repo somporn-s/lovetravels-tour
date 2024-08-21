@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import { Drawer,Menu,Flex,Divider,notification } from 'antd';
 // import Title from 'antd/lib/typography/Title';
 // import axios from '../../../routers/axios';
@@ -11,9 +11,7 @@ import { useSelector } from 'react-redux';
 import './allStyle.css';
 
 function Header(props) {
-    const { role } = useSelector((state) => state.Roles)
     const [openMenu,setOpenMenu] = useState(false);
-    console.log('header : '+role)
     return (
         <div>
             <Flex gap="middle" justify="space-between" horizontal style={{backgroundColor:'#7BBCB0'}}  className="iconMenu">
@@ -31,12 +29,12 @@ function Header(props) {
                 setOpenMenu(false)
             }} 
             closable={false} >
-                <AppMenu isInline={false}/>
+                <AppMenu isInline/>
             </Drawer>
         </div>
         )
 }
-function AppMenu(isInline){
+function AppMenu({isInline=false}){
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { role } = useSelector((state) => state.Roles) 

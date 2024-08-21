@@ -15,6 +15,10 @@ const today = () => {
 
     return  format.thai;
 }
+const datetimeForImg = () => {
+    return new Date().toLocaleString('th-TH')
+}
 module.exports = {
-    today
+    today,
+    datetimeForImg
 };

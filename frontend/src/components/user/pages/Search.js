@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../../user/pages/Header'
+import Header from './header'
 function Search(props) {
 
     return (<div><Header/> Search </div>)

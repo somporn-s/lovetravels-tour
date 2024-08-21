@@ -28,8 +28,7 @@ function Login(props) {
                 });
                 LocalStorages.setToken(res.data)
                 dispatch(updateRole(res.data.typeRole))
-                console.log('login : '+ res.data.typeRole)
-                //navigate("/user/search");
+                navigate("/user/search");
             }
         ).catch(
             err => {

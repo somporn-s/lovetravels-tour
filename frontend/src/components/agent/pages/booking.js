@@ -1,7 +1,10 @@
 import React from 'react';
+import Header from './header'
 
 const booking = (props)=>{
-    return (<div><h1>Booking</h1></div>)
+    return (
+    <div><Header/> Booking </div>
+    )
 }
 
 export default booking

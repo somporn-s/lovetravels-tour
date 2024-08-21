@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
-import { Image, Upload } from 'antd';
+import { Form,Image, Upload } from 'antd';
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -40,8 +40,18 @@ const App = () => {
   );
   return (
     <>
+    <Form.Item
+                            name="payment"
+                            label="QRcode Payment"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please upload img!',
+                                }
+                            ]}
+                        >
       <Upload
-        action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+        //action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
         listType="picture-card"
         fileList={fileList}
         onPreview={handlePreview}
@@ -49,6 +59,7 @@ const App = () => {
       >
         {fileList.length >= 8 ? null : uploadButton}
       </Upload>
+      </Form.Item>
       {previewImage && (
         <Image
           wrapperStyle={{

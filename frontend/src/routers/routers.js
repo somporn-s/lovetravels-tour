@@ -1,14 +1,15 @@
-import UserRegisterPage from '../components/user/pages/Register';
-import UserLoginPage from '../components/user/pages/Login';
-import UserSearchPage from '../components/user/pages/Search';
-import UserDetailPage from '../components/user/pages/Detail';
-import UserPaymentPage from '../components/user/pages/Payment';
-import UserConfirmPaymentPage from '../components/user/pages/ConfirmPayment';
-import UserBookingPage from '../components/user/pages/Booking';
-import UserProfilePage from '../components/user/pages/Profile';
+import UserRegisterPage from '../components/user/pages/register';
+import UserLoginPage from '../components/user/pages/login';
+import UserSearchPage from '../components/user/pages/search';
+import UserDetailPage from '../components/user/pages/detail';
+import UserPaymentPage from '../components/user/pages/payment';
+import UserConfirmPaymentPage from '../components/user/pages/confirmPayment';
+import UserBookingPage from '../components/user/pages/booking';
+import UserProfilePage from '../components/user/pages/profile';
 
-import AgentRegisterPage from '../components/agent/pages/Register';
-import AgentLoginPage from '../components/agent/pages/Login';
+import AgentRegisterPage from '../components/agent/pages/register';
+import AgentLoginPage from '../components/agent/pages/login';
+import AgentBookingPage from '../components/agent/pages/booking';
 
 const components = {
     userLogin: {
@@ -50,6 +51,10 @@ const components = {
     agentRegister: {
         url: "agent/register",
         component: AgentRegisterPage
+    },
+    agentBooking: {
+        url: "agent/booking",
+        component: AgentBookingPage
     }
 
 }
