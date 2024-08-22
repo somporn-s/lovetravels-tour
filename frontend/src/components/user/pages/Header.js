@@ -38,6 +38,7 @@ function AppMenu({isInline=false}){
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { role } = useSelector((state) => state.Roles) 
+    console.log('header : '+role)
     const Logout = () => {
         LocalStorages.removeToken('all');
         dispatch(updateRole('user'))

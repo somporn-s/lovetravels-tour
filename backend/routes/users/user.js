@@ -7,6 +7,7 @@ const Middlewares = require('../../controllers/users/middleware');
 
 router.post('/login',userControllers.loginUser);
 router.post('/register',userControllers.registerUser)
+router.get('/auth_token',userControllers.authToken)
 
 router.get('/search',packageControllers.getFindPackage)
 router.post('/search',packageControllers.postFindPackage)

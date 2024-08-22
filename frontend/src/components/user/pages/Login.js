@@ -5,7 +5,7 @@ import axios from '../../../routers/axios';
 import LocalStorages from '../../../services/localStorages'
 import { useNavigate } from 'react-router-dom';
 
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { updateRole } from '../../../services/store/Reducer'
 
  import './allStyle.css';

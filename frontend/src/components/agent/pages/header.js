@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import {MenuOutlined} from '@ant-design/icons';
 import {useDispatch} from 'react-redux'
 import { updateRole } from '../../../services/store/Reducer'
-import { useSelector } from 'react-redux';
 import './allStyle.css';
 
 function Header(props) {
@@ -37,9 +36,9 @@ function Header(props) {
 function AppMenu({isInline=false}){
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { role } = useSelector((state) => state.Roles) 
     const Logout = () => {
         LocalStorages.removeToken('all');
+        console.log('test')
         dispatch(updateRole('user'))
         notification.error({
                     message: `Logout successfully !!`

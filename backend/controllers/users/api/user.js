@@ -53,7 +53,18 @@ const registerUser = async (req,res) => {
         return res.status(201).send({message: 'Register successfully !!'})
     }
 };
+const authToken = async (req,res) => {
+    if (!req.headers["authorization"]) return res.sendStatus(401)
+        const verifyed = await encryptToken.reDecoded(req.headers.authorization.split(' ')[1]);
+        if(verifyed.err){
+            res.status(401).send({error: verifyed.err})
+        }else{
+            const reEncoded = await encryptToken.reEncoded({email: verifyed.email,typeRole: verifyed.typeRole})
+            res.status(201).send({refreshToken: reEncoded,typeRole: verifyed.typeRole})
+        }
+} 
 module.exports = {
     loginUser,
-    registerUser
+    registerUser,
+    authToken
 };

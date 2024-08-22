@@ -83,12 +83,9 @@ const permissions = {
     },
     agent : {
         allowedRoutes: [
-            components.agentLogin,
-            components.agentRegister,
             components.agentBooking,
         ],
-        redirectRoutes: "/agent/login"
+        redirectRoutes: "agent/booking"
     }
 }
-//check permissions
 export default permissions
