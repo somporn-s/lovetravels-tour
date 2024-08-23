@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Install app dependencies
 COPY package*.json ./
+#COPY --chown==node:node . .
 RUN npm install
 
 # Bundle app source

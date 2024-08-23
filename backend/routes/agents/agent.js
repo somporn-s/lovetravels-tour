@@ -6,12 +6,20 @@ const bookingControllers = require('../../controllers/agents/api/booking');
 const multer = require('multer');
 //const userMiddlewares = require('../../controllers/agent/middleware');
 
-const upload = multer({ dest: '../../src/images/qrcode' })
+const storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, 'src/images/qrcode/')
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.originalname)
+  }
+})
+const upload = multer({ storage })
 
 router.post('/login',userControllers.loginAgent);
-router.post('/register',userControllers.registerAgent);
+router.post('/register',upload.array('payment'),userControllers.registerAgent);
 
 router.post('/booking',bookingControllers.getAllBooking);
-router.post('/upload',upload.single('images'),bookingControllers.uploadPic);
+router.post('/upload',upload.array('payment'),bookingControllers.uploadPic);
 
 module.exports = router;

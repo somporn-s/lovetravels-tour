@@ -56,6 +56,7 @@ const App = () => {
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
+        maxCount={1}
       >
         {fileList.length >= 8 ? null : uploadButton}
       </Upload>

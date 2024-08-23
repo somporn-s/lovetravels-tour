@@ -25,7 +25,7 @@ function Register(props) {
             phone: values.phone,
             payment: values.payment
         }
-        axios.post('agent/register',body).then(
+        axios.post('agent/register',{ headers: { "Content-Type": "multipart/form-data" } },body).then(
             res => {
                 notification.success({
                     message: `Register successfully by ${values.email}`
