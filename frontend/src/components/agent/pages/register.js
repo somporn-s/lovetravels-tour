@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button, Flex, Row, Col, Divider, notification } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import axios from '../../../routers/axios';
@@ -13,6 +13,7 @@ const layout = {
 };
 function Register(props) {
     const navigate = useNavigate();
+    const [fileList, setFileList] = useState([])
     const onFinish = values => {
         const body = {
             license: values.license,
@@ -22,12 +23,13 @@ function Register(props) {
             pass: values.password,
             conf_pass: values.conf_pass,
             phone: values.phone,
-            payment: values.payment['file']
+            payment: fileList
         }
         const fromData = new FormData()
         Object.keys(body).forEach(key=>{
             fromData.append(key, body[key])
         })
+        console.log(fromData)
         axios.post('agent/register',fromData,{ headers: { "Content-Type": "multipart/form-data" } }).then(
             res => {
                 notification.success({
@@ -170,7 +172,7 @@ function Register(props) {
                             }}/>
                         </Form.Item>
                         
-                        <Upload />
+                        <Upload setFileListFromRegis={setFileList}/>
                         <Row style={{float: 'right'}}>
                             <Button onClick={toLogin} className="Button button_link_style" htmlType="button" size="large" type="link">Sign in</Button>
                             <Button className="Button button_style " type="primary" size="large" htmlType="submit">

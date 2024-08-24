@@ -8,7 +8,7 @@ const getBase64 = (file) =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
-const App = () => {
+const UploadImg = (prop) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [fileList, setFileList] = useState([]);
@@ -19,7 +19,7 @@ const App = () => {
     setPreviewImage(file.url || file.preview);
     setPreviewOpen(true);
   };
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const handleChange = ({ fileList: newFileList }) => {setFileList(newFileList); prop.setFileListFromRegis(newFileList)} ;
   const uploadButton = (
     <button
       style={{
@@ -53,10 +53,10 @@ const App = () => {
       <Upload
         //action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
         listType="picture-card"
-        fileList={fileList}
+        //fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
-        maxCount={1}
+        maxCount={2}
       >
         {fileList.length >= 8 ? null : uploadButton}
       </Upload>
@@ -77,4 +77,4 @@ const App = () => {
     </>
   );
 };
-export default App;
+export default UploadImg;
