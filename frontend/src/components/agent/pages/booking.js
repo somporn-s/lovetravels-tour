@@ -9,14 +9,15 @@ const Booking = ()=>{
 //     wrapperCol: { xs: 24, sm: 19, md: 20, lg: 19, xl: 20, xxl: 21 },
 // };
     const [fileList, setFileList] = useState([]);
+    let arrImg = []
     const onFinish = values => {
         console.log(fileList)
         const formData = new FormData()
-        for(let i=0;i <= fileList.length;i++){
-           //formData.append('payment',fileList[i])
+        for(let i=0;i < fileList.length;i++){
+           formData.append('payment',fileList[i])
         }
         //console.log({file : fileList})
-        formData.append('payment',fileList)
+        //formData.append('payment',fileList)
         formData.append('user',values.user)
          axios.post("/agent/upload",formData,{headers: {
         "Content-Type": "multipart/form-data",
@@ -28,6 +29,12 @@ const Booking = ()=>{
                 console.log(err)
             }
         );
+    }
+    const getImg = (e) => {
+        arrImg = fileList
+        arrImg.push(e)
+        //console.log(arrImg)
+        setFileList(arrImg)
     }
     return (
     <div><Header/> 
@@ -62,7 +69,7 @@ const Booking = ()=>{
                         >
                         <Upload 
                         beforeUpload={() => false}
-                        onChange={(e) => {setFileList(e.file)}}
+                        onChange={(e) => {getImg(e.file)}}
                         maxCount={2}
                         multiple={true}
                         ><Button type='info' className='Button'>Upload</Button></Upload>
