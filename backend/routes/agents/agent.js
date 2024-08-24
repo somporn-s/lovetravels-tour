@@ -28,7 +28,7 @@ const fileFillter = {fileFilter: (req, file, cb) => {
 const upload = multer({ storage,fileFillter })
 
 router.post('/login',userControllers.loginAgent);
-router.post('/register',upload.array('payment'),userControllers.registerAgent);
+router.post('/register',upload.array('payment',1),userControllers.registerAgent);
 
 router.post('/booking',bookingControllers.getAllBooking);
 router.post('/upload',upload.array('payment',2),bookingControllers.uploadPic);

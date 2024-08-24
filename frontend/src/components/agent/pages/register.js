@@ -15,6 +15,7 @@ function Register(props) {
     const navigate = useNavigate();
     const [fileList, setFileList] = useState([])
     const onFinish = values => {
+        console.log(fileList)
         const body = {
             license: values.license,
             company: values.company,
@@ -22,20 +23,22 @@ function Register(props) {
             email: values.email,
             pass: values.password,
             conf_pass: values.conf_pass,
-            phone: values.phone,
-            payment: fileList
+            phone: values.phone
         }
-        const fromData = new FormData()
+        const formData = new FormData()
         Object.keys(body).forEach(key=>{
-            fromData.append(key, body[key])
+            formData.append(key, body[key])
         })
-        console.log(fromData)
-        axios.post('agent/register',fromData,{ headers: { "Content-Type": "multipart/form-data" } }).then(
+        for(let i=0;i < fileList.length;i++){
+           formData.append('payment',fileList[i])
+        }
+        console.log(formData)
+        axios.post('agent/register',formData,{ headers: { "Content-Type": "multipart/form-data" } }).then(
             res => {
                 notification.success({
                     message: `Register successfully by ${values.email}`
                 });
-               //navigate("agent/login");
+               navigate("agent/login");
             }
         ).catch(
             err => {
@@ -172,7 +175,7 @@ function Register(props) {
                             }}/>
                         </Form.Item>
                         
-                        <Upload setFileListFromRegis={setFileList}/>
+                        <Upload setFileListFromRegis={setFileList} inputUpload={{formItem : {name:'payment',label:'QRcode Payment'},upload: {maxCount: 1}}}/>
                         <Row style={{float: 'right'}}>
                             <Button onClick={toLogin} className="Button button_link_style" htmlType="button" size="large" type="link">Sign in</Button>
                             <Button className="Button button_style " type="primary" size="large" htmlType="submit">

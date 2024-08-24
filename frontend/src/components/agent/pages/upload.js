@@ -8,10 +8,11 @@ const getBase64 = (file) =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
-const UploadImg = (prop) => {
+const UploadImg = (props) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [fileList, setFileList] = useState([]);
+  let arrImg = []
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -19,7 +20,7 @@ const UploadImg = (prop) => {
     setPreviewImage(file.url || file.preview);
     setPreviewOpen(true);
   };
-  const handleChange = ({ fileList: newFileList }) => {setFileList(newFileList); prop.setFileListFromRegis(newFileList)} ;
+  //const handleChange = ({ fileList: newFileList }) => {setFileList(newFileList); props.setFileListFromRegis(newFileList[0])} ;
   const uploadButton = (
     <button
       style={{
@@ -38,11 +39,18 @@ const UploadImg = (prop) => {
       </div>
     </button>
   );
+  const handleChange = (e) => {
+        arrImg = fileList
+        arrImg.push(e)
+        setFileList(e)
+        props.setFileListFromRegis(arrImg)
+    }
   return (
     <>
     <Form.Item
-                            name="payment"
-                            label="QRcode Payment"
+                            //name="payment"
+                            //label="QRcode Payment"
+                            {...props.inputUpload.formItem}
                             rules={[
                                 {
                                     required: true,
@@ -52,11 +60,13 @@ const UploadImg = (prop) => {
                         >
       <Upload
         //action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-        listType="picture-card"
         //fileList={fileList}
+        beforeUpload={() => false}
+        listType="picture-card"
         onPreview={handlePreview}
-        onChange={handleChange}
-        maxCount={2}
+        onChange={(e) => {handleChange(e.file)}}
+        {...props.inputUpload.maxCount}
+        //maxCount={2}
       >
         {fileList.length >= 8 ? null : uploadButton}
       </Upload>
