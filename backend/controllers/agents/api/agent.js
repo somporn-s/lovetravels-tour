@@ -44,17 +44,16 @@ const registerAgent = async (req,res) => {
     if (Object.keys(result).length){
         return res.status(400).send({message : `Have ${body.email} already !!`})
     }else{
-        console.log(body)
-        // result = await db.Agent.create({
-        //     license_id: body.license,
-        //     username: body.username,
-        //     password: bcryptjs.hashSync(body.conf_pass,bcryptjs.genSaltSync(12)),
-        //     email: body.email,
-        //     company_name: body.company,
-        //     tel: body.phone,
-        //     // pic_payment_path: body.payment,
-        //     update_date: datetime.today()
-        // });
+        result = await db.Agent.create({
+            license_id: body.license,
+            username: body.username,
+            password: bcryptjs.hashSync(body.conf_pass,bcryptjs.genSaltSync(12)),
+            email: body.email,
+            company_name: body.company,
+            tel: body.phone,
+            // pic_payment_path: body.payment,
+            update_date: datetime.today()
+        });
         return res.status(201).send({message: 'Register successfully !!'})
     }
 }

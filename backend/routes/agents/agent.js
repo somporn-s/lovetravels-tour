@@ -8,6 +8,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
+    console.log(file)
     callback(null, 'src/images/qrcode/')
   },
   filename: function (req, file, callback) {

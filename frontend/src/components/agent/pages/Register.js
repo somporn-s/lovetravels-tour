@@ -14,7 +14,6 @@ const layout = {
 function Register(props) {
     const navigate = useNavigate();
     const onFinish = values => {
-        console.log(values);
         const body = {
             license: values.license,
             company: values.company,
@@ -23,9 +22,13 @@ function Register(props) {
             pass: values.password,
             conf_pass: values.conf_pass,
             phone: values.phone,
-            payment: values.payment
+            payment: values.payment['file']
         }
-        axios.post('agent/register',{ headers: { "Content-Type": "multipart/form-data" } },body).then(
+        const fromData = new FormData()
+        Object.keys(body).forEach(key=>{
+            fromData.append(key, body[key])
+        })
+        axios.post('agent/register',fromData,{ headers: { "Content-Type": "multipart/form-data" } }).then(
             res => {
                 notification.success({
                     message: `Register successfully by ${values.email}`
