@@ -54,6 +54,12 @@ services:
     depends_on:
       - db
       - backend
+
+#git command 
+#git rm [file.path] // repo and local
+#git rm --cached [file.path] // repo only
+#git log --graph --oneline --decorate
+
 #frontend
 #npm init
 #npx create-react-app [projectname] || npm install -g create-react-app
