@@ -1,6 +1,7 @@
 const db = require('../../../models');
 const {sequelize,Sequelize} = require('../../../models');
 const { QueryTypes } = require('sequelize');
+const nodemailer = require('nodemailer');
 const bcryptjs = require('bcryptjs');
 const datetime = require('../datetime');
 const encryptToken = require('../encrypt');
