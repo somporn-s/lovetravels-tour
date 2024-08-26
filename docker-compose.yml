@@ -58,6 +58,11 @@ services:
 #git command 
 #git rm [file.path] // repo and local
 #git rm --cached [file.path] // repo only
+
+#git rm -r [file.path] // repo and local all folder
+#git rm -r --cached [file.path] // repo only all folder
+
+#git reset --hard [commit_id]
 #git log --graph --oneline --decorate
 
 #frontend

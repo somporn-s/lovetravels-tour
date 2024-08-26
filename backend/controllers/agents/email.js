@@ -1,7 +1,29 @@
+require('dotenv').config();
 const nodemailer = require('nodemailer')
 const sender = async (receiver) => {
-
-    const transporter = nodemailer.createTransport(senderConfig.zoho);
+const senderConfig = {
+    gmail : {
+        service: "Gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: process.env.GMAIL_EMAIL_SENDER,
+            pass: process.env.GMAIL_PASS_SENDER,
+        }
+    },
+    zoho : {
+        service:'zoho',
+        host:'smtp.zoho.com',
+        port:465,
+        secure: true,
+        auth: {
+            user: process.env.ZOHO_EMAIL_SENDER,
+            pass: process.env.ZOHO_PASS_SENDER,
+        }
+    }
+}
+    const transporter = nodemailer.createTransport(senderConfig.gmail);
     const info = await transporter.sendMail({
       from: senderConfig.gmail.auth.user, // อีเมล์ของผู้ส่ง
       to: receiver.receive, // อีเมล์ผู้รับ
