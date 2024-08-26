@@ -8,7 +8,6 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
-    console.log('multer : '+file)
     callback(null, 'src/images/qrcode/')
   },
   filename: function (req, file, callback) {
@@ -29,6 +28,7 @@ const upload = multer({ storage,fileFillter })
 
 router.post('/login',userControllers.loginAgent);
 router.post('/register',upload.array('payment',1),userControllers.registerAgent);
+router.post('/confirm_email',userControllers.confEmailAgent);
 
 router.post('/booking',bookingControllers.getAllBooking);
 router.get('/upload',bookingControllers.uploadPic);

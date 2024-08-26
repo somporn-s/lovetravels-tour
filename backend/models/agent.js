@@ -18,6 +18,10 @@ module.exports = (Sequelize , DataTypes) => {
             notNull: true,
             unique: true
         },
+        conf_email: {
+            type: DataTypes.TEXT,
+            notNull: true
+        },
         company_name: {
             type: DataTypes.STRING,
             notNull: true

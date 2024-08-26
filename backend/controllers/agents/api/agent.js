@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const bcryptjs = require('bcryptjs');
 const datetime = require('../datetime');
 const encryptToken = require('../encrypt');
+const email = require('../email')
 
 const loginAgent = async (req,res) => {
     const body = req.body;
@@ -45,20 +46,42 @@ const registerAgent = async (req,res) => {
     if (Object.keys(result).length){
         return res.status(400).send({message : `Have ${body.email} already !!`})
     }else{
+        const numOTP = Math.random().toFixed(8)*100000000
         result = await db.Agent.create({
             license_id: body.license,
             username: body.username,
             password: bcryptjs.hashSync(body.conf_pass,bcryptjs.genSaltSync(12)),
             email: body.email,
+            conf_email: bcryptjs.hashSync(numOTP.toString(),bcryptjs.genSaltSync(12)),
             company_name: body.company,
             tel: body.phone,
-            // pic_payment_path: body.payment,
+            pic_payment_path: req.files[0].originalname,
             update_date: datetime.today()
         });
-        return res.status(201).send({message: 'Register successfully !!'})
+        const status = await email.sender({receive: body.email,subject:'Lovetravels Verify OTP',message:`OTP : <b>${numOTP}</b>`})
+        return status.error ? res.status(400).send(status.error) : res.status(201).send({message: 'Register successfully !!'})
+        
     }
+}
+const confEmailAgent = async (req,res) => {
+    const body = req.body
+    const result = await sequelize.query('SELECT * FROM agent WHERE username = ?', {
+        replacements: [body.user],
+        type: QueryTypes.SELECT,
+    });
+    if (!Object.keys(result).length){
+        res.status(400).send({message :`agent not found !!`})
+    }else{
+    const dePass = bcryptjs.compareSync(body.otp,result[0].password);
+        if(!dePass){
+            res.status(400).send({message: "Username or Password is wrong !!"})
+        }else{
+        }
+    }
+    res.status(200).send({message : "otp check ok !!"})
 }
 module.exports = {
     loginAgent,
-    registerAgent
+    registerAgent,
+    confEmailAgent
 }

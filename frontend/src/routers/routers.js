@@ -8,6 +8,7 @@ import UserBookingPage from '../components/user/pages/booking';
 import UserProfilePage from '../components/user/pages/profile';
 
 import AgentRegisterPage from '../components/agent/pages/register';
+import AgentConfEmail from '../components/agent/pages/confEmail';
 import AgentLoginPage from '../components/agent/pages/login';
 import AgentBookingPage from '../components/agent/pages/booking';
 
@@ -52,6 +53,10 @@ const components = {
         url: "agent/register",
         component: AgentRegisterPage
     },
+    agentConfEmail: {
+        url: "agent/confirm_email",
+        component: AgentConfEmail
+    },
     agentBooking: {
         url: "agent/booking",
         component: AgentBookingPage
@@ -67,6 +72,7 @@ const permissions = {
             components.userDetail,
             components.agentLogin,
             components.agentRegister,
+            components.agentConfEmail,
         ],
         redirectRoutes: "user/login"
     },

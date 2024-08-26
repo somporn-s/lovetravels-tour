@@ -15,7 +15,6 @@ function Register(props) {
     const navigate = useNavigate();
     const [fileList, setFileList] = useState([])
     const onFinish = values => {
-        console.log(fileList)
         const body = {
             license: values.license,
             company: values.company,
@@ -32,13 +31,16 @@ function Register(props) {
         for(let i=0;i < fileList.length;i++){
            formData.append('payment',fileList[i])
         }
-        console.log(formData)
+        notification.warning({
+                    message: `Register Progress`,
+                    showProgress: true,
+                });
         axios.post('agent/register',formData,{ headers: { "Content-Type": "multipart/form-data" } }).then(
             res => {
                 notification.success({
                     message: `Register successfully by ${values.email}`
                 });
-               navigate("agent/login");
+               //navigate("agent/login");
             }
         ).catch(
             err => {
