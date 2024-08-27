@@ -29,6 +29,7 @@ const upload = multer({ storage,fileFillter })
 router.post('/login',userControllers.loginAgent);
 router.post('/register',upload.array('payment',1),userControllers.registerAgent);
 router.post('/confirm_email',userControllers.confEmailAgent);
+router.get('/resend_otp',userControllers.resendOTPAgent);
 
 router.post('/booking',bookingControllers.getAllBooking);
 router.get('/upload',bookingControllers.uploadPic);

@@ -26,6 +26,7 @@ function Login(props) {
                 notification.success({
                     message: `Login successfully by ${values.email}`
                 });
+                LocalStorages.removeToken('all')
                 LocalStorages.setToken(res.data)
                 dispatch(updateRole(res.data.typeRole))
                 navigate("/user/search");

@@ -23,12 +23,18 @@ function Login(props) {
             pass : values.pass
         }
         axios.post("/agent/login",body).then(res => {
+            if(res.data.redirect){
+                LocalStorages.setToken({confirmToken:res.data.confirmToken})
+                navigate("/agent/confirm_email");
+            }else{
                 notification.success({
                     message: `Login successfully by ${values.user}`
                 });
+                LocalStorages.removeToken('all')
                 LocalStorages.setToken(res.data)
                 dispatch(updateRole(res.data.typeRole))
                 navigate("/agent/booking");
+            }
             }
         ).catch(
             err => {

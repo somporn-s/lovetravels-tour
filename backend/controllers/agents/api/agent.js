@@ -14,11 +14,14 @@ const loginAgent = async (req,res) => {
         type: QueryTypes.SELECT,
     });
     if (!Object.keys(result).length){
-        res.status(400).send({message :`agent not found !!`})
+        res.status(400).send({message : 'Username or Password is exist'})
     }else{
         const dePass = bcryptjs.compareSync(body.pass,result[0].password);
         if(!dePass){
             res.status(400).send({message: "Username or Password is wrong !!"})
+        }else if(result[0].conf_email.length !== 8){
+            const confEncoded = await getConfirmToken(result[0].email)
+            res.status(200).send({confirmToken : confEncoded,redirect : 'confirm_email'})
         }else{
             const encoded = await encryptToken.encoded({username: result[0].username,typeRole: 'agent'})
             const reEncoded = await encryptToken.reEncoded({username: result[0].username,typeRole: 'agent'})
@@ -58,13 +61,14 @@ const registerAgent = async (req,res) => {
             pic_payment_path: req.files[0].originalname,
             update_date: datetime.today()
         });
+        const confEncoded = await getConfirmToken(body.email)
         const status = await email.sender({receive: body.email,subject:'Lovetravels Verify OTP',message:`OTP : <b>${numOTP}</b>`})
-        return status.error ? res.status(400).send(status.error) : res.status(201).send({message: 'Register successfully !!'})
+        return status.error ? res.status(400).send(status.error) : res.status(201).send({confirmToken:confEncoded,message: 'Register successfully !!'})
+        //return res.status(201).send({confirmToken:confEncoded,message: 'Register successfully !!'})
         
     }
 }
 const confEmailAgent = async (req,res) => {
-    const body = req.body
     const result = await sequelize.query('SELECT * FROM agent WHERE username = ?', {
         replacements: [body.user],
         type: QueryTypes.SELECT,
@@ -78,10 +82,19 @@ const confEmailAgent = async (req,res) => {
         }else{
         }
     }
-    res.status(200).send({message : "otp check ok !!"})
+        res.status(200).send({message : "otp check ok !!"})
+}
+const resendOTPAgent = async (req,res) => {
+    console.log(req.headers.autherization)
+    res.status(200).send({message : 'resend otp done '})
+}
+function getConfirmToken(UEmail){
+    const confEncoded = encryptToken.reEncoded({email: UEmail,typeRole: 'pendding'})
+    return confEncoded
 }
 module.exports = {
     loginAgent,
     registerAgent,
-    confEmailAgent
+    confEmailAgent,
+    resendOTPAgent
 }

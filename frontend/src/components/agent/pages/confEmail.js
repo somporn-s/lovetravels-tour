@@ -2,6 +2,7 @@ import React from 'react'
 import { Form, Input, Button, Flex, Row, Col, Divider, notification } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import axios from 'axios'
+import LocalStorages from '../../../services/localStorages'
 //import { useNavigate } from 'react-router-dom';
 
 import './allStyle.css';
@@ -35,6 +36,14 @@ function ConfEmail() {
     const sharedProps = {
         onChange,
     };
+    const resendOTP = () =>{
+        const confirmToken = LocalStorages.getToken('confirmToken')
+        axios.get("/agent/resend_otp",{headers: {Authorization : `Bearer ${confirmToken.confirmToken}`}}).then(res => {
+            
+        }).catch(err => {
+
+        })
+    }
   return (
     <div>
       <Row justify="center" >
@@ -65,7 +74,8 @@ function ConfEmail() {
                         <Input.OTP length={8} {...sharedProps} />
                         </Form.Item>
                             <Row style={{float: 'right'}}>
-                        <Button className="Button button_style " type="primary" size="large" htmlType="submit">
+                            <Button onClick={resendOTP} className="Button button_link_style" htmlType="button" size="large" type="link">  Resend OTP</Button>
+                            <Button className="Button button_style " type="primary" size="large" htmlType="submit">
                                 Confirm OTP
                             </Button>
                             </Row>
