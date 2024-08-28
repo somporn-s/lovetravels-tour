@@ -11,7 +11,13 @@ const encoded = async (payload) => {
 }
 const decoded = async (token) => {
     const publicKey = await fs.readFileSync('./src/encrypt/publicKey.key','utf-8');
-    const verified = jwt.verify(token,publicKey,options);
+    const verified = jwt.verify(token,publicKey,options, (err, decoded) => { 
+        if(err){
+            return {err:err}
+        }else{
+            return decoded
+        }
+     } )
       //res.redirect('/login');
     return verified;
 }
@@ -22,7 +28,13 @@ const reEncoded = async (payload) => {
 }
 const reDecoded = async (token) => {
     const publicKey = await fs.readFileSync('./src/encrypt/publicKeyRefresh.key','utf-8');
-    const verified = jwt.verify(token,publicKey,reOptions);
+    const verified = jwt.verify(token,publicKey,reOptions, (err, decoded) => { 
+        if(err){
+            return {err:err}
+        }else{
+            return decoded
+        }
+     } )
     return verified;
 }
 module.exports = {

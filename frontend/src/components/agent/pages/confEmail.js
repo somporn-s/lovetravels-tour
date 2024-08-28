@@ -2,8 +2,10 @@ import React from 'react'
 import { Form, Input, Button, Flex, Row, Col, Divider, notification } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import axios from 'axios'
+import { useDispatch } from 'react-redux';
+import getRole from '../../../services/store/thunks'
 import LocalStorages from '../../../services/localStorages'
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import './allStyle.css';
 
@@ -12,8 +14,8 @@ const layout = {
     wrapperCol: { xs: 24, sm: 17, md: 18, lg: 18, xl: 19, xxl: 20 },
 };
 function ConfEmail() {
-    //const navigate = useNavigate();
-    
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const onFinish = values => {
         const formData = new FormData()
         formData.append('otp',values.otp)
@@ -22,7 +24,10 @@ function ConfEmail() {
             notification.success({
                     message: `confirm OTP successfully`
                 });
-            //navigate("agent/booking");
+            LocalStorages.removeToken('all')
+            LocalStorages.setToken(res.data)
+            dispatch(getRole())
+            navigate("agent/booking");
         }).catch(err => {
               notification.error({
                     message: `Register fail status : ${err.response.status} Message : ${err.response.data.message}`
@@ -37,11 +42,21 @@ function ConfEmail() {
         onChange,
     };
     const resendOTP = () =>{
-        const confirmToken = LocalStorages.getToken('confirmToken')
-        axios.get("/agent/resend_otp",{headers: {Authorization : `Bearer ${confirmToken.confirmToken}`}}).then(res => {
-            
+        notification.warning({
+                    message: `Resend OTP Progress`,
+                    showProgress: true,
+                });
+        axios.get("/agent/resend_otp").then(res => {
+            LocalStorages.removeToken('all')
+            LocalStorages.setToken(res.data)
+            notification.success({
+                    message: `confirm OTP successfully`
+                });
         }).catch(err => {
-
+            notification.error({
+                    message: `Resend fail status : ${err.response.status} Message : ${err.response.data.message}`
+                });  
+            if(err.response.status === 401){navigate("/agent/login");}
         })
     }
   return (

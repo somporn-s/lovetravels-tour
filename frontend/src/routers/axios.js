@@ -6,14 +6,14 @@ axios.interceptors.request.use(
     config => {
         const url = config.url.toLowerCase()
         const urlSplit = url.split('/')
-        if(url.includes("login") || url.includes("register") || url.includes("confirm_email") || url.includes("user/search") || url.includes("user/detail")) return config
+        if(url.includes("login") || url.includes("register") || url.includes("user/search") || url.includes("user/detail")) return config
         const token = LocalStorages.getAllToken()
         const arrPath = {
             'user':[
-                {'resend_otp' : {headers: {Autherization : `Bearer ${token.accessToken}`}}},
             ],
             'agent':[
                 {'resend_otp' : {headers: {Autherization : `Bearer ${token.confirmToken}`}}},
+                {'confirm_email' : {headers: {Autherization : `Bearer ${token.confirmToken}`,'Content-Type': 'application/json'}}},
                 {'booking' : {headers: {Autherization : `Bearer ${token.confirmToken}`}}},
             ]
         }
@@ -28,13 +28,8 @@ axios.interceptors.request.use(
                             });
                         }
                     });
-                    //return v[urlSplit[2]]
                 } 
             });
-        // if(token){
-        //     //config.headers["Autherization"] = `Bearer ${token.confirmToken}`
-        //     //console.log(config)
-        // }
         return config
     },
     err => {

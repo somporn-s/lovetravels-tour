@@ -49,13 +49,13 @@ const registerAgent = async (req,res) => {
     if (Object.keys(result).length){
         return res.status(400).send({message : `Have ${body.email} already !!`})
     }else{
-        const numOTP = Math.random().toFixed(8)*100000000
+        const numOTP = await getOTPNum(8)
         result = await db.Agent.create({
             license_id: body.license,
             username: body.username,
             password: bcryptjs.hashSync(body.conf_pass,bcryptjs.genSaltSync(12)),
             email: body.email,
-            conf_email: bcryptjs.hashSync(numOTP.toString(),bcryptjs.genSaltSync(12)),
+            conf_email: bcryptjs.hashSync(numOTP,bcryptjs.genSaltSync(12)),
             company_name: body.company,
             tel: body.phone,
             pic_payment_path: req.files[0].originalname,
@@ -63,34 +63,84 @@ const registerAgent = async (req,res) => {
         });
         const confEncoded = await getConfirmToken(body.email)
         const status = await email.sender({receive: body.email,subject:'Lovetravels Verify OTP',message:`OTP : <b>${numOTP}</b>`})
-        return status.error ? res.status(400).send(status.error) : res.status(201).send({confirmToken:confEncoded,message: 'Register successfully !!'})
+        return status.error ? res.status(400).send({message : status.error}) : res.status(201).send({confirmToken:confEncoded,message: 'Register successfully !!'})
         //return res.status(201).send({confirmToken:confEncoded,message: 'Register successfully !!'})
         
     }
 }
 const confEmailAgent = async (req,res) => {
-    const result = await sequelize.query('SELECT * FROM agent WHERE username = ?', {
-        replacements: [body.user],
-        type: QueryTypes.SELECT,
-    });
-    if (!Object.keys(result).length){
-        res.status(400).send({message :`agent not found !!`})
+    const token = req.headers.autherization.split(' ')[1]
+    const body = req.body
+    if(!token){
+        return res.status(401).send({message : 'No Autherization Token'})
     }else{
-    const dePass = bcryptjs.compareSync(body.otp,result[0].password);
-        if(!dePass){
-            res.status(400).send({message: "Username or Password is wrong !!"})
+        const reDecoded = await encryptToken.reDecoded(token)
+        if(reDecoded.err){
+            res.status(401).send({message : reDecoded.err})
         }else{
+            const result = await sequelize.query('SELECT username,email,conf_email FROM agent WHERE email = ?', {
+                replacements: [reDecoded.email],
+                type: QueryTypes.SELECT,
+            });
+            if (!Object.keys(result).length){
+                res.status(400).send({message :`agent not found !!`})
+            }else{
+            const dePass = bcryptjs.compareSync(body.otp,result[0].conf_email);
+                if(!dePass){
+                    res.status(400).send({message: "OTP is wrong !!"})
+                }else{
+                    const encoded = await encryptToken.encoded({username: result[0].username,typeRole: 'agent'})
+                    const reEncoded = await encryptToken.reEncoded({username: result[0].username,typeRole: 'agent'})
+                    const update = await db.Agent.update({
+                        conf_email: body.otp,
+                        update_date: datetime.today(),
+                    },{
+                        where: {email:result[0].email}
+                    }).then(res => {return res}).catch(err => {return {error : err}})
+                update.error ? res.status(400).send({message : update.error}) : res.status(200).send({accessToken: encoded,refreshToken: reEncoded,typeRole: 'agent',message: 'Verify Email successfully !!'})
+                }
+            }
         }
     }
-        res.status(200).send({message : "otp check ok !!"})
 }
 const resendOTPAgent = async (req,res) => {
-    console.log(req.headers.autherization)
-    res.status(200).send({message : 'resend otp done '})
+    for(let i = 0 ;i<30;i++){
+        const numOTP = await getOTPNum(8)
+        console.log(numOTP)
+    }
+    const token = req.headers.autherization.split(' ')[1]
+    if(!token){
+        return res.status(401).send({message : 'No Autherization Token'})
+    }else{
+        const reDecoded = await encryptToken.reDecoded(token)
+        if(reDecoded.err){
+            res.status(401).send({message : reDecoded.err})
+        }else{
+            const numOTP = await getOTPNum(8)
+            const confEncoded = await getConfirmToken(reDecoded.email)
+            const status = await email.sender({receive: reDecoded.email,subject:'Lovetravels Verify OTP',message:`OTP : <b>${numOTP}</b>`})
+            if(status.error){res.status(400).send({message : status.error})}else{
+                const update = await db.Agent.update({
+                        conf_email: bcryptjs.hashSync(numOTP,bcryptjs.genSaltSync(12)),
+                        update_date: datetime.today(),
+                    },{
+                        where: {email:reDecoded.email}
+                    }).then(res => {return res}).catch(err => {return {error : err}})
+                update.error ? res.status(400).send({message : update.error}) : res.status(200).send({confirmToken:confEncoded,message: 'Resend OTP successfully !!'})
+            }
+        }
+    }
 }
 function getConfirmToken(UEmail){
     const confEncoded = encryptToken.reEncoded({email: UEmail,typeRole: 'pendding'})
     return confEncoded
+}
+function getOTPNum(numLenght){
+    let numOTP = ""
+        for(let i = 0;i < numLenght;i++){
+            numOTP = numOTP + (Math.floor(Math.random() * (9 - 1) + 1)).toString()
+        }
+    return numOTP
 }
 module.exports = {
     loginAgent,
