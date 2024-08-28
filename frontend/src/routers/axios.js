@@ -4,19 +4,37 @@ axios.defaults.baseURL = "http://localhost:8080";
 
 axios.interceptors.request.use(
     config => {
-        const urlSplit = config.url.toLowerCase().split('/')
-        if(config.url.includes("login") || config.url.includes("register") || config.url.includes("user/search") || config.url.includes("user/detail")) return config
+        const url = config.url.toLowerCase()
+        const urlSplit = url.split('/')
+        if(url.includes("login") || url.includes("register") || url.includes("confirm_email") || url.includes("user/search") || url.includes("user/detail")) return config
         const token = LocalStorages.getAllToken()
         const arrPath = {
-            'agent':[{'resend_otp' : {headers: {Authorization : `Bearer ${token.confirmToken}`}}},
-                    {'resend_otp' : {headers: {Authorization : `Bearer ${token.confirmToken}`}}}
+            'user':[
+                {'resend_otp' : {headers: {Autherization : `Bearer ${token.accessToken}`}}},
+            ],
+            'agent':[
+                {'resend_otp' : {headers: {Autherization : `Bearer ${token.confirmToken}`}}},
+                {'booking' : {headers: {Autherization : `Bearer ${token.confirmToken}`}}},
             ]
         }
-            //'confirm_email' : {headers: {Authorization : `Bearer ${token.confirmToken}`}}
-        console.log(arrPath[urlSplit[1]][0])
-        if(token){
-            //config.headers["Autherization"] = `Bearer ${token.confirmToken}`
-        }
+            arrPath[urlSplit[1]].forEach((v, k) => {
+                if(v[urlSplit[2]]){
+                    Object.keys(v[urlSplit[2]]).forEach(function(k) {
+                        if(k){
+                            Object.keys(v[urlSplit[2]][k]).forEach(function(key) {
+                                if(token && key){
+                                    config[k][key] = v[urlSplit[2]][k][key]
+                                }
+                            });
+                        }
+                    });
+                    //return v[urlSplit[2]]
+                } 
+            });
+        // if(token){
+        //     //config.headers["Autherization"] = `Bearer ${token.confirmToken}`
+        //     //console.log(config)
+        // }
         return config
     },
     err => {
