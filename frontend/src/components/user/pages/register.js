@@ -3,6 +3,7 @@ import { Form, Input, Button, Flex, Row, Col, Divider, notification } from 'antd
 import Title from 'antd/lib/typography/Title';
 import axios from '../../../routers/axios';
 import { useNavigate } from 'react-router-dom';
+import LocalStorages from '../../../services/localStorages'
 
 import './allStyle.css';
 
@@ -21,10 +22,12 @@ function Register(props) {
         }
         axios.post('user/register',body).then(
             res => {
+                LocalStorages.removeToken('all')
+                LocalStorages.setToken(res.data)
                 notification.success({
                     message: `Register successfully by ${values.email}`
                 });
-               navigate("user/login");
+               navigate("/user/confirm_email");
             }
         ).catch(
             err => {

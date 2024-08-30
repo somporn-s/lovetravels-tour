@@ -48,13 +48,16 @@ function Login(props) {
     const toRegis = () => {
         navigate("/agent/register");
     }
+    const toSearch = () => {
+        navigate("/user/search");
+    }
     return (
         <div >
         <Row justify="center">
             <Col className="card_bg" xs={23} sm={23} md={23} lg={14} xl={14} xxl={12}>
                 <div className="Form">
                     <Flex justify="left">
-                        <Title level={4} className="Title">Login</Title>
+                        <Title level={4} className="Title">Login For Agent</Title>
                     </Flex>
                     <Divider className="Divider" />
                     <Form
@@ -92,6 +95,17 @@ function Login(props) {
                         </Flex>
                     </Form>
                 </div>
+                <Divider
+                    variant="dotted"
+                    style={{
+                        borderColor: 'gray'
+                    }}
+                    >
+                    <span style={{fontSize:'14px',fontWeight:'regular',color:'gray'}}>OR</span>
+                </Divider>
+                <Row justify={'center'}>
+                    <Button className="Button button_style" htmlType="button" size="large" style={{margin : '0px 5px'}} onClick={toSearch}>Find Package Tour</Button>
+                </Row>
             </Col>
         </Row>
         </div>

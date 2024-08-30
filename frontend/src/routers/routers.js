@@ -1,4 +1,5 @@
 import UserRegisterPage from '../components/user/pages/register';
+import UserConfEmail from '../components/user/pages/confEmail';
 import UserLoginPage from '../components/user/pages/login';
 import UserSearchPage from '../components/user/pages/search';
 import UserDetailPage from '../components/user/pages/detail';
@@ -20,6 +21,10 @@ const components = {
     userRegister: {
         url: "user/register",
         component: UserRegisterPage
+    },
+    userConfEmail: {
+        url: "user/confirm_email",
+        component: UserConfEmail
     },
     userSearch: {
         url: "user/search",
@@ -68,6 +73,7 @@ const permissions = {
         allowedRoutes : [
             components.userLogin,
             components.userRegister,
+            components.userConfEmail,
             components.userSearch,
             components.userDetail,
             components.agentLogin,

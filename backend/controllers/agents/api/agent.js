@@ -104,10 +104,6 @@ const confEmailAgent = async (req,res) => {
     }
 }
 const resendOTPAgent = async (req,res) => {
-    for(let i = 0 ;i<30;i++){
-        const numOTP = await getOTPNum(8)
-        console.log(numOTP)
-    }
     const token = req.headers.autherization.split(' ')[1]
     if(!token){
         return res.status(401).send({message : 'No Autherization Token'})
