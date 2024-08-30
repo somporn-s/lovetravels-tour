@@ -40,7 +40,7 @@ function AppMenu({isInline=false}){
         LocalStorages.removeToken('all');
         console.log('test')
         dispatch(updateRole('user'))
-        notification.error({
+        notification.success({
                     message: `Logout successfully !!`
                 });
         navigate("/agent/login");

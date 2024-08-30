@@ -20,6 +20,10 @@ function Register(props) {
             pass: values.password,
             conf_pass: values.confirm
         }
+        notification.warning({
+                    message: `Register Progress`,
+                    showProgress: true,
+                });
         axios.post('user/register',body).then(
             res => {
                 LocalStorages.removeToken('all')

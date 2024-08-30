@@ -8,7 +8,6 @@ const encryptToken = require('../encrypt');
 const email = require('../email')
 
 const loginUser = async (req,res) => {
-    console.log('tets')
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -40,6 +39,10 @@ const loginUser = async (req,res) => {
     }
 };
 const registerUser = async (req,res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     const body = req.body;
     let result = await sequelize.query('SELECT uid FROM member WHERE email = ?', {
         replacements: [body.email],
@@ -61,21 +64,25 @@ const registerUser = async (req,res) => {
     }
 }
 const confEmailUser = async (req,res) => {
-    const token = req.headers.autherization.split(' ')[1]
-    const body = req.body
-    if(!token){
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    if(!req.headers.autherization){
         return res.status(401).send({message : 'No Autherization Token'})
     }else{
+        const token = req.headers.autherization.split(' ')[1]
+        const body = req.body
         const reDecoded = await encryptToken.reDecoded(token)
         if(reDecoded.err){
             res.status(401).send({message : reDecoded.err})
         }else{
-            const result = await sequelize.query('SELECT username,email,conf_email FROM agent WHERE email = ?', {
+            const result = await sequelize.query('SELECT email,conf_email FROM member WHERE email = ?', {
                 replacements: [reDecoded.email],
                 type: QueryTypes.SELECT,
             });
             if (!Object.keys(result).length){
-                res.status(400).send({message :`agent not found !!`})
+                res.status(400).send({message :`member not found !!`})
             }else{
             const dePass = bcryptjs.compareSync(body.otp,result[0].conf_email);
                 if(!dePass){
@@ -83,7 +90,7 @@ const confEmailUser = async (req,res) => {
                 }else{
                     const encoded = await encryptToken.encoded({email: result[0].email,typeRole: 'member'})
                     const reEncoded = await encryptToken.reEncoded({email: result[0].email,typeRole: 'member'})
-                    const update = await db.Agent.update({
+                    const update = await db.Member.update({
                         conf_email: body.otp,
                         update_date: datetime.today(),
                     },{
@@ -96,10 +103,10 @@ const confEmailUser = async (req,res) => {
     }
 }
 const resendOTPUser = async (req,res) => {
-    const token = req.headers.autherization.split(' ')[1]
-    if(!token){
+    if(!req.headers.autherization){
         return res.status(401).send({message : 'No Autherization Token'})
     }else{
+        const token = req.headers.autherization.split(' ')[1]
         const reDecoded = await encryptToken.reDecoded(token)
         if(reDecoded.err){
             res.status(401).send({message : reDecoded.err})
@@ -108,7 +115,7 @@ const resendOTPUser = async (req,res) => {
             const confEncoded = await getConfirmToken(reDecoded.email)
             const status = await email.sender({receive: reDecoded.email,subject:'Lovetravels Verify OTP',message:`OTP : <b>${numOTP}</b>`})
             if(status.error){res.status(400).send({message : status.error})}else{
-                const update = await db.Agent.update({
+                const update = await db.Member.update({
                         conf_email: bcryptjs.hashSync(numOTP,bcryptjs.genSaltSync(12)),
                         update_date: datetime.today(),
                     },{
