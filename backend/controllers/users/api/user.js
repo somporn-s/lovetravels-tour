@@ -1,3 +1,4 @@
+const {validationResult} = require('express-validator')
 const db = require('../../../models');
 const {sequelize,Sequelize} = require('../../../models');
 const { QueryTypes } = require('sequelize');
@@ -7,6 +8,11 @@ const encryptToken = require('../encrypt');
 const email = require('../email')
 
 const loginUser = async (req,res) => {
+    console.log('tets')
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     const body = req.body;
     const result = await sequelize.query('SELECT * FROM member WHERE email = ?', {
         replacements: [body.email],
@@ -35,13 +41,6 @@ const loginUser = async (req,res) => {
 };
 const registerUser = async (req,res) => {
     const body = req.body;
-    
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(body.email)) {
-        return res.status(400).send({
-            message: 'Invalid email format'
-        })
-    }
     let result = await sequelize.query('SELECT uid FROM member WHERE email = ?', {
         replacements: [body.email],
         type: QueryTypes.SELECT,
@@ -120,16 +119,6 @@ const resendOTPUser = async (req,res) => {
         }
     }
 }
-const authToken = async (req,res) => {
-    if (!req.headers["authorization"]) return res.sendStatus(401)
-        const verifyed = await encryptToken.reDecoded(req.headers.authorization.split(' ')[1]);
-        if(verifyed.err){
-            res.status(401).send({error: verifyed.err})
-        }else{
-            const reEncoded = await encryptToken.reEncoded({email: verifyed.email,typeRole: verifyed.typeRole})
-            res.status(201).send({refreshToken: reEncoded,typeRole: verifyed.typeRole})
-        }
-} 
 function getConfirmToken(UEmail){
     const confEncoded = encryptToken.reEncoded({email: UEmail,typeRole: 'pendding'})
     return confEncoded
@@ -145,6 +134,5 @@ module.exports = {
     loginUser,
     registerUser,
     confEmailUser,
-    resendOTPUser,
-    authToken
+    resendOTPUser
 };
