@@ -5,9 +5,9 @@ const packageControllers = require('../../controllers/users/api/package');
 const bookingControllers = require('../../controllers/users/api/booking');
 const Middlewares = require('../../controllers/users/middleware');
 
-router.post('/login',Middlewares.validationLogin(),userControllers.loginUser)
-router.post('/register',Middlewares.validationRegis(),userControllers.registerUser)
-router.post('/confirm_email',Middlewares.validationConfirmEmail(),userControllers.confEmailUser);
+router.post('/login',Middlewares.formLogin(),Middlewares.validationForm,userControllers.loginUser)
+router.post('/register',Middlewares.formRegis(),Middlewares.validationForm,userControllers.registerUser)
+router.post('/confirm_email',Middlewares.formConfirmEmail(),Middlewares.validationForm,userControllers.confEmailUser);
 router.get('/resend_otp',userControllers.resendOTPUser);
 
 router.get('/search',packageControllers.getFindPackage)

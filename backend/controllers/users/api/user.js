@@ -1,4 +1,3 @@
-const {validationResult} = require('express-validator')
 const db = require('../../../models');
 const {sequelize,Sequelize} = require('../../../models');
 const { QueryTypes } = require('sequelize');
@@ -8,10 +7,6 @@ const encryptToken = require('../encrypt');
 const email = require('../email')
 
 const loginUser = async (req,res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
     const body = req.body;
     const result = await sequelize.query('SELECT * FROM member WHERE email = ?', {
         replacements: [body.email],
@@ -39,10 +34,6 @@ const loginUser = async (req,res) => {
     }
 };
 const registerUser = async (req,res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
     const body = req.body;
     let result = await sequelize.query('SELECT uid FROM member WHERE email = ?', {
         replacements: [body.email],
@@ -64,10 +55,6 @@ const registerUser = async (req,res) => {
     }
 }
 const confEmailUser = async (req,res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
     if(!req.headers.autherization){
         return res.status(401).send({message : 'No Autherization Token'})
     }else{

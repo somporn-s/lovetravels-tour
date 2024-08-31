@@ -2,9 +2,8 @@ const express = require('express');
 const router = express.Router();
 const userControllers = require('../../controllers/agents/api/agent');
 const bookingControllers = require('../../controllers/agents/api/booking');
-// const datetime = require('../../controllers/agents/datetime');
 const multer = require('multer');
-//const userMiddlewares = require('../../controllers/agent/middleware');
+const userMiddlewares = require('../../controllers/agents/middleware');
 
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -26,9 +25,9 @@ const fileFillter = {fileFilter: (req, file, cb) => {
     },}
 const upload = multer({ storage,fileFillter })
 
-router.post('/login',userControllers.loginAgent);
-router.post('/register',upload.array('payment',1),userControllers.registerAgent);
-router.post('/confirm_email',userControllers.confEmailAgent);
+router.post('/login',userMiddlewares.formLogin(),userMiddlewares.validationForm,userControllers.loginAgent);
+router.post('/register',upload.array('payment',1),userMiddlewares.formRegis(),userMiddlewares.validationForm,userControllers.registerAgent);
+router.post('/confirm_email',userMiddlewares.formConfirmEmail(),userMiddlewares.validationForm,userControllers.confEmailAgent);
 router.get('/resend_otp',userControllers.resendOTPAgent);
 
 router.post('/booking',bookingControllers.getAllBooking);
