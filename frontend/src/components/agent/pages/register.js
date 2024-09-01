@@ -102,6 +102,12 @@ function Register(props) {
                                     required: true,
                                     message: 'Please input your Username!',
                                 },
+                                { min: 5, message: 'Username must be minimum 5 characters.' },
+                                { max: 15, message: 'Username must be maximum 15 characters.' },
+                                {
+                                    pattern: new RegExp(/^[a-zA-Z0-9_.-]*$/),
+                                    message: 'The Usrename allow just characters and number only.',
+                                }
                             ]}
                         >
                         <Input />
@@ -114,8 +120,13 @@ function Register(props) {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your Password!',
+                                    message: 'Please input your password!',
                                 },
+                                { min: 5, message: 'Password must be minimum 5 characters.' },
+                                {
+                                    pattern: new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/),
+                                    message: 'The Password must have lowwerletter,upperletter,number least one',
+                                }
                             ]}
                         >
                             <Input.Password />
@@ -130,6 +141,11 @@ function Register(props) {
                                 {
                                     required: true,
                                     message: 'Please confirm your password!',
+                                },
+                                { min: 5, message: 'Password must be minimum 5 characters.' },
+                                {
+                                    pattern: new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/),
+                                    message: 'The Password must have lowwerletter,upperletter,number least one',
                                 },({getFieldValue}) => ({ //{} noreturn | ({}) return obj
                                     validator(rule, value){
                                         if(!value || getFieldValue('password') === value){
@@ -172,10 +188,15 @@ function Register(props) {
                                     type: 'tel',
                                     message: 'The input is not valid Phone!',
                                 },
+                                {
+                                    pattern: new RegExp(/^[0-9]{9,10}$/),
+                                    message: 'The Phone must number only and have 9-10 characters',
+                                }
                             ]}
                         >
                         <Input count={{
                                 show: true,
+                                min: 9,
                                 max: 10,
                             }}/>
                         </Form.Item>

@@ -84,6 +84,12 @@ function Register(props) {
                                     required: true,
                                     message: 'Please input your password!',
                                 },
+                                { min: 5, message: 'Password must be minimum 5 characters.' },
+                                {
+                                    pattern: new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/),
+                                    message: 'The Password must have lowwerletter,upperletter,number least one',
+                                }
+                                
                             ]}
                         >
                             <Input.Password />
@@ -98,6 +104,11 @@ function Register(props) {
                                 {
                                     required: true,
                                     message: 'Please confirm your password!',
+                                },
+                                { min: 5, message: 'Password must be minimum 5 characters.' },
+                                {
+                                    pattern: new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/),
+                                    message: 'The Password must have lowwerletter,upperletter,number least one',
                                 },({getFieldValue}) => ({ //{} noreturn | ({}) return obj
                                     validator(rule, value){
                                         if(!value || getFieldValue('password') === value){

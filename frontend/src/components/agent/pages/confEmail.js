@@ -3,9 +3,9 @@ import { Form, Input, Button, Flex, Row, Col, Divider, notification } from 'antd
 import Title from 'antd/lib/typography/Title';
 import axios from 'axios'
 import { useDispatch } from 'react-redux';
-import getRole from '../../../services/store/thunks'
 import LocalStorages from '../../../services/localStorages'
 import { useNavigate } from 'react-router-dom';
+import { updateRole } from '../../../services/store/Reducer'
 
 import './allStyle.css';
 
@@ -26,7 +26,7 @@ function ConfEmail() {
                 });
             LocalStorages.removeToken('all')
             LocalStorages.setToken(res.data)
-            dispatch(getRole())
+            dispatch(updateRole(res.data.typeRole))
             navigate("agent/booking");
         }).catch(err => {
               notification.error({

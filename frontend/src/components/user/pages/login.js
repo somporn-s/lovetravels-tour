@@ -86,7 +86,14 @@ function Login(props) {
                             label="Password"
                             name="pass"
                             size="large"
-                            rules={[{ required: true, message: 'Please input your password!' }]}
+                            rules={[
+                                { required: true, message: 'Please input your password !' },
+                                { min: 5, message: 'Password must be minimum 5 characters.' },
+                                {
+                                    pattern: new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/),
+                                    message: 'The Password must have lowwerletter,upperletter,number least once.',
+                                }
+                            ]}
                         >
                             <Input.Password />
                         </Form.Item>

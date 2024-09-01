@@ -113,6 +113,26 @@ const resendOTPUser = async (req,res) => {
         }
     }
 }
+const authToken = async (req,res) => {
+    if(!req.headers.autherization){
+        return res.status(401).send({message : 'No Autherization Token'})
+    }else{
+        const token = req.headers.autherization.split(' ')[1]
+        const reDecoded = await encryptToken.reDecoded(token)
+        if(reDecoded.err){
+            res.status(401).send({message : reDecoded.err})
+        }else{
+            let detailToken = {}
+            if(reDecoded.typeRole === 'member'){
+                detailToken = {email: reDecoded.email,typeRole: reDecoded.typeRole}
+            }else if(reDecoded.typeRole === 'agent'){
+                detailToken = {username: reDecoded.username,typeRole: reDecoded.typeRole}
+            }
+            const reEncoded = await encryptToken.reEncoded(detailToken)
+            reEncoded.err ? res.status(400).send({message : reEncoded.err}) : res.status(200).send({refreshToken:reEncoded,typeRole:reDecoded.typeRole})
+        }
+    }
+}
 function getConfirmToken(UEmail){
     const confEncoded = encryptToken.reEncoded({email: UEmail,typeRole: 'pendding'})
     return confEncoded
@@ -128,5 +148,6 @@ module.exports = {
     loginUser,
     registerUser,
     confEmailUser,
-    resendOTPUser
+    resendOTPUser,
+    authToken
 };

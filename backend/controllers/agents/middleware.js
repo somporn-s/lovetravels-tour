@@ -26,13 +26,14 @@ const validationForm = (req,res,next) => {
 }
 const formLogin = () => {
   return [
-    body('user').trim().not().isEmpty().withMessage('Invalid Email does not Empty')
-    .isLength({min:5}).withMessage('The minimum password length is 5 characters')
-    .isLength({max:15}).withMessage('The maximum password length is 15 characters')
+    body('user').trim().not().isEmpty().withMessage('Invalid username does not Empty')
+    .isLength({min:5}).withMessage('The minimum username length is 5 characters')
+    .isLength({max:15}).withMessage('The maximum username length is 15 characters')
+    .matches(/^[a-zA-Z0-9_.-]*$/).withMessage('The Usrename allow just characters and number only.')
     .exists({checkFalsy: true}).withMessage('You must type a text'),
     body('pass').trim().not().isEmpty().withMessage('Invalid Password does not Empty')
     .isLength({min:5}).withMessage('The minimum password length is 5 characters')
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/).withMessage('The Password Invalid')
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/).withMessage('The Password must have lowwerletter,upperletter,number least once')
     .exists({checkFalsy: true}).withMessage('You must type a password'),
   ]
 }
@@ -49,11 +50,11 @@ const formRegis = () => {
     .exists({checkFalsy: true}).withMessage('You must type a email'),
     body('pass').trim().not().isEmpty().withMessage('Invalid Password does not Empty')
     .isLength({min:5}).withMessage('The minimum password length is 5 characters')
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/).withMessage('The Password Invalid')
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/).withMessage('The Password must have lowwerletter,upperletter,number least once')
     .exists({checkFalsy: true}).withMessage('You must type a password'),
     body('conf_pass').trim().not().isEmpty().withMessage('Invalid Password does not Empty')
     .isLength({min:5}).withMessage('The minimum password length is 5 characters')
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/).withMessage('The Password must have lowwerletter,upperletter,number')
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/).withMessage('The Password must have lowwerletter,upperletter,number least once')
     .exists({checkFalsy: true}).withMessage('You must type a password')
     .custom((value, {req}) => value === req.body.pass).withMessage("The passwords do not match"),
     body('company').trim().not().isEmpty().withMessage('Invalid company does not Empty')

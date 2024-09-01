@@ -41,8 +41,18 @@ const UploadImg = (props) => {
   );
   const handleChange = (e) => {
         arrImg = fileList
-        arrImg.push(e)
-        setFileList(e)
+        const checkL = arrImg.length
+        if(checkL <= 0){
+          arrImg.push(e)
+        }else{
+          Object.keys(arrImg).forEach(function(k) {
+            if(arrImg[k].uid === e.uid){
+              arrImg.splice(k, 1);
+            }
+          });
+          if(checkL === arrImg.length){arrImg.push(e)}
+        }
+        setFileList(arrImg)
         props.setFileListFromRegis(arrImg)
     }
   return (
@@ -65,10 +75,10 @@ const UploadImg = (props) => {
         listType="picture-card"
         onPreview={handlePreview}
         onChange={(e) => {handleChange(e.file)}}
-        {...props.inputUpload.maxCount}
+        {...props.inputUpload.upload}
         //maxCount={2}
       >
-        {fileList.length >= 8 ? null : uploadButton}
+        {fileList.length > props.inputUpload.upload.maxCount ? null : uploadButton}
       </Upload>
       </Form.Item>
       {previewImage && (

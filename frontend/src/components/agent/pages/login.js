@@ -74,8 +74,14 @@ function Login(props) {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your E-mail!',
+                                    message: 'Please input your Username!',
                                 },
+                                { min: 5, message: 'Username must be minimum 5 characters.' },
+                                { max: 15, message: 'Username must be maximum 15 characters.' },
+                                {
+                                    pattern: new RegExp(/^[a-zA-Z0-9_.-]*$/),
+                                    message: 'The Usrename allow just characters and number only.',
+                                }
                             ]}
                         >
                             <Input />
@@ -85,7 +91,14 @@ function Login(props) {
                             label="Password"
                             name="pass"
                             size="large"
-                            rules={[{ required: true, message: 'Please input your password!' }]}
+                            rules={[
+                                { required: true, message: 'Please input your password!' },
+                                { min: 5, message: 'Username must be minimum 5 characters.' },
+                                {
+                                    pattern: new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/),
+                                    message: 'The Password must have lowwerletter,upperletter,number least once.',
+                                }
+                            ]}
                         >
                             <Input.Password />
                         </Form.Item>

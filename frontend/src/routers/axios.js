@@ -10,11 +10,12 @@ axios.interceptors.request.use(
         const token = LocalStorages.getAllToken()
         const arrPath = {
             'user':[
+                {'auth_token' : {headers: {Autherization : `Bearer ${token.refreshToken}`}}},
                 {'resend_otp' : {headers: {Autherization : `Bearer ${token.confirmToken}`}}},
                 {'confirm_email' : {headers: {Autherization : `Bearer ${token.confirmToken}`,'Content-Type': 'application/json'}}},
-                {'payment' : {headers: {Autherization : `Bearer ${token.refreshToken}`}}},
             ],
             'agent':[
+                {'auth_token' : {headers: {Autherization : `Bearer ${token.refreshToken}`}}},
                 {'resend_otp' : {headers: {Autherization : `Bearer ${token.confirmToken}`}}},
                 {'confirm_email' : {headers: {Autherization : `Bearer ${token.confirmToken}`,'Content-Type': 'application/json'}}},
                 {'booking' : {headers: {Autherization : `Bearer ${token.refreshToken}`}}},

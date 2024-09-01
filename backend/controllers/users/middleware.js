@@ -31,7 +31,7 @@ const formLogin = () => {
     .exists({checkFalsy: true}).withMessage('You must type a password'),
     body('pass').trim().not().isEmpty().withMessage('Invalid Password does not Empty')
     .isLength({min:5}).withMessage('The minimum password length is 5 characters')
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/).withMessage('The Password Invalid')
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/).withMessage('The Password must have lowwerletter,upperletter,number least once')
     .exists({checkFalsy: true}).withMessage('You must type a password'),
   ]
 }
@@ -42,11 +42,11 @@ const formRegis = () => {
     .exists({checkFalsy: true}).withMessage('You must type a email'),
     body('pass').trim().not().isEmpty().withMessage('Invalid Password does not Empty')
     .isLength({min:5}).withMessage('The minimum password length is 5 characters')
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/).withMessage('The Password Invalid')
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/).withMessage('The Password must have lowwerletter,upperletter,number least once')
     .exists({checkFalsy: true}).withMessage('You must type a password'),
     body('conf_pass').trim().not().isEmpty().withMessage('Invalid Password does not Empty')
     .isLength({min:5}).withMessage('The minimum password length is 5 characters')
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/).withMessage('The Password must have lowwerletter,upperletter,number')
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}$/).withMessage('The Password must have lowwerletter,upperletter,number least once')
     .exists({checkFalsy: true}).withMessage('You must type a password')
     .custom((value, {req}) => value === req.body.pass).withMessage("The passwords do not match"),
   ]

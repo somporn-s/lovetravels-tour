@@ -55,8 +55,8 @@ function AppMenu({isInline=false}){
                         key: "account",
                         style: {color:"white"}
                     },{
-                        label:"Package",
-                        key: "package",
+                        label:"Package Tour",
+                        key: "package_tour",
                         style: {color:"white"}
                     },{
                         label:"logout",

@@ -12,6 +12,7 @@ import AgentRegisterPage from '../components/agent/pages/register';
 import AgentConfEmail from '../components/agent/pages/confEmail';
 import AgentLoginPage from '../components/agent/pages/login';
 import AgentBookingPage from '../components/agent/pages/booking';
+import AgentPackageTourPage from '../components/agent/pages/packageTour';
 
 const components = {
     userLogin: {
@@ -65,7 +66,11 @@ const components = {
     agentBooking: {
         url: "agent/booking",
         component: AgentBookingPage
-    }
+    },
+    agentPackageTour: {
+        url: "agent/package_tour",
+        component: AgentPackageTourPage
+    },
 
 }
 const permissions = {
@@ -96,6 +101,7 @@ const permissions = {
     agent : {
         allowedRoutes: [
             components.agentBooking,
+            components.agentPackageTour,
         ],
         redirectRoutes: "agent/booking"
     }

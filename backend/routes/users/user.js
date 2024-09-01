@@ -10,6 +10,8 @@ router.post('/register',Middlewares.formRegis(),Middlewares.validationForm,userC
 router.post('/confirm_email',Middlewares.formConfirmEmail(),Middlewares.validationForm,userControllers.confEmailUser);
 router.get('/resend_otp',userControllers.resendOTPUser);
 
+router.get('/auth_token',userControllers.authToken)
+
 router.get('/search',packageControllers.getFindPackage)
 router.post('/search',packageControllers.postFindPackage)
 router.post('/booking',Middlewares.checkMemberToken,bookingControllers.allBooking)
