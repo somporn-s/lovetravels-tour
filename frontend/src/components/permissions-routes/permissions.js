@@ -7,10 +7,9 @@ function PrivateRoutes(props) {
 
     const dispatch = useDispatch();
     dispatch(getRole())
-    const { role } = useSelector((state) => state.Roles)
+    const { role } = useSelector((state) => state.Roles) 
     const allowedRoutes = ConfigRoutes[role].allowedRoutes;
     const redirectRoutes = ConfigRoutes[role].redirectRoutes;
-    console.log(role+' '+allowedRoutes)
   return (
     <Routes>
         {allowedRoutes.map(route => <Route 

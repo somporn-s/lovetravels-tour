@@ -1,15 +1,18 @@
-import { createSlice ,current} from '@reduxjs/toolkit'
+import { createSlice /*,current*/} from '@reduxjs/toolkit'
 import getRole from "./thunks";
-const initialState = {
-    role: 'user'
-}
+import LocalStorages from '../localStorages'
+// const initialState = {
+//     role: 'user',
+//     loading: true
+// }
+const initialState = LocalStorages.getInitRole()
 const roleStore = createSlice({
     name: "setRole",
     initialState,
     reducers: {
         updateRole: (state, action) => {
-            //state.role = action.payload
-            console.log('current : '+current(state))
+            state.role = action.payload
+            //console.log('current : '+current(state))
         }
     },
     extraReducers: (builder) => {

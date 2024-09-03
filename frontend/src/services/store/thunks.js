@@ -6,12 +6,11 @@ const getRole = createAsyncThunk("setRole/getRole",async () => {
     const token = LocalStorages.getToken()
     if(token.refreshToken){
         const auth_token = await axios.get("/user/auth_token")
-        .then(res => {return res.data.typeRole})
+        .then(res => {console.log(res.data.typeRole); return res.data.typeRole})
         .catch(err => {return 'user'})
-        console.log('en retrole : '+auth_token)
         return auth_token
     }else{
-        console.log('no en retrole : ')
+        console.log('no en setrole : ')
         return 'user'
     } 
 })
