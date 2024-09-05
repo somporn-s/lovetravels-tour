@@ -10,24 +10,24 @@
         display: none;
     }
 }
-textarea,input[type] {
+textarea,input,input[type] {
     border-color: none; 
-    background-color: lightgray !important;
+    background-color: rgb(240, 240, 240) !important;
 }
-textarea,input[type]:hover {
+textarea,input,input[type]:hover {
     border-color: #7BBCB0;
-    background-color: lightgray !important;
+    background-color: rgb(240, 240, 240) !important;
 }
-textarea,input[type]:focus {
+textarea,input,input[type]:focus {
     border-color: #7BBCB0;
-    background-color: lightgray !important;
+    background-color: rgb(240, 240, 240) !important;
 }
-textarea,input[type]:after {
+textarea,input,input[type]:after {
     border-color: #7BBCB0;
-    background-color: lightgray !important;
+    background-color: rgb(240, 240, 240) !important;
 }
 .ant-input-affix-wrapper {
-    background-color: lightgray !important;
+    background-color: rgb(240, 240, 240) !important;
     padding: 4px 10px !important;
 }
 .bg_color{

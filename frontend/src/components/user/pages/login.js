@@ -22,7 +22,7 @@ function Login(props) {
             email : values.email,
             pass : values.pass
         }
-        axios.post("/user/login",body).then(res => {
+        axios.post("user/login",body).then(res => {
                 notification.success({
                     message: `Login successfully by ${values.email}`
                 });

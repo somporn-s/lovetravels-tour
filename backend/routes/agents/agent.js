@@ -2,12 +2,21 @@ const express = require('express');
 const router = express.Router();
 const userControllers = require('../../controllers/agents/api/agent');
 const bookingControllers = require('../../controllers/agents/api/booking');
+const packageControllers = require('../../controllers/agents/api/package_tour')
 const multer = require('multer');
 const userMiddlewares = require('../../controllers/agents/middleware');
 
-const storage = multer.diskStorage({
+const storageRegister = multer.diskStorage({
   destination: function (req, file, callback) {
     callback(null, 'src/images/qrcode/')
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.originalname)
+  }
+})
+const storagePackage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, 'src/images/package_tour/')
   },
   filename: function (req, file, callback) {
     callback(null, file.originalname)
@@ -23,13 +32,15 @@ const fileFillter = {fileFilter: (req, file, cb) => {
             return cb(err);
         }
     },}
-const upload = multer({ storage,fileFillter })
+const uploadRegister = multer({ storage:storageRegister,fileFillter })
+const uploadPackage = multer({ storage:storagePackage,fileFillter })
 
 router.post('/login',userMiddlewares.formLogin(),userMiddlewares.validationForm,userControllers.loginAgent);
-router.post('/register',upload.array('payment',1),userMiddlewares.formRegis(),userMiddlewares.validationForm,userControllers.registerAgent);
+router.post('/register',uploadRegister.array('payment',1),userMiddlewares.formRegis(),userMiddlewares.validationForm,userControllers.registerAgent);
 router.post('/confirm_email',userMiddlewares.formConfirmEmail(),userMiddlewares.validationForm,userControllers.confEmailAgent);
 router.get('/resend_otp',userControllers.resendOTPAgent);
 
+router.post('/add_package',uploadPackage.array('pic_package',5),packageControllers.addPackageTour);
 router.post('/booking',bookingControllers.getAllBooking);
 router.get('/upload',bookingControllers.uploadPic);
 

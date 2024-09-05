@@ -19,7 +19,7 @@ function ConfEmail() {
     const onFinish = values => {
         const formData = new FormData()
         formData.append('otp',values.otp)
-        axios.post("/agent/confirm_email",formData)
+        axios.post("agent/confirm_email",formData)
         .then(res => {
             notification.success({
                     message: `confirm OTP successfully`
@@ -27,7 +27,7 @@ function ConfEmail() {
             LocalStorages.removeToken('all')
             LocalStorages.setToken(res.data)
             dispatch(updateRole(res.data.typeRole))
-            navigate("agent/booking");
+            navigate("/agent/booking");
         }).catch(err => {
               notification.error({
                     message: `Register fail status : ${err.response.status} Message : ${err.response.data.message}`
@@ -46,7 +46,7 @@ function ConfEmail() {
                     message: `Resend OTP Progress`,
                     showProgress: true,
                 });
-        axios.get("/agent/resend_otp").then(res => {
+        axios.get("agent/resend_otp").then(res => {
             LocalStorages.removeToken('all')
             LocalStorages.setToken(res.data)
             notification.success({

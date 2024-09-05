@@ -19,7 +19,7 @@ function ConfEmail() {
     const onFinish = values => {
         const formData = new FormData()
         formData.append('otp',values.otp)
-        axios.post("/user/confirm_email",formData)
+        axios.post("user/confirm_email",formData)
         .then(res => {
             notification.success({
                     message: `confirm OTP successfully`
@@ -46,7 +46,7 @@ function ConfEmail() {
                     message: `Resend OTP Progress`,
                     showProgress: true,
                 });
-        axios.get("/user/resend_otp").then(res => {
+        axios.get("user/resend_otp").then(res => {
             LocalStorages.removeToken('all')
             LocalStorages.setToken(res.data)
             notification.success({

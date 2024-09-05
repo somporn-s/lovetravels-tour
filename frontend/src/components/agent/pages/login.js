@@ -22,7 +22,7 @@ function Login(props) {
             user : values.user,
             pass : values.pass
         }
-        axios.post("/agent/login",body).then(res => {
+        axios.post("agent/login",body).then(res => {
             if(res.data.redirect){
                 LocalStorages.setToken({confirmToken:res.data.confirmToken})
                 navigate("/agent/confirm_email");
@@ -33,7 +33,7 @@ function Login(props) {
                 LocalStorages.removeToken('all')
                 LocalStorages.setToken(res.data)
                 dispatch(updateRole(res.data.typeRole))
-                navigate("/agent/booking");
+                navigate("agent/booking");
             }
             }
         ).catch(

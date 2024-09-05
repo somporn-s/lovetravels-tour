@@ -13,6 +13,7 @@ import AgentConfEmail from '../components/agent/pages/confEmail';
 import AgentLoginPage from '../components/agent/pages/login';
 import AgentBookingPage from '../components/agent/pages/booking';
 import AgentPackageTourPage from '../components/agent/pages/packageTour';
+import AgentAddPackageTourPage from '../components/agent/pages/addPackageTour';
 
 const components = {
     userLogin: {
@@ -71,6 +72,10 @@ const components = {
         url: "agent/package_tour",
         component: AgentPackageTourPage
     },
+    agentAddPackageTour: {
+        url: "agent/add_package_tour",
+        component: AgentAddPackageTourPage
+    },
 
 }
 const permissions = {
@@ -81,20 +86,24 @@ const permissions = {
             components.userConfEmail,
             components.userSearch,
             components.userDetail,
+            components.userPayment,
+            components.userConfirmPayment,
+            components.userBooking,
+            components.userProfile,
             components.agentLogin,
             components.agentRegister,
             components.agentConfEmail,
         ],
         redirectRoutes: "user/login"
     },
-    member : {
-        allowedRoutes: [
+    member: {
+        allowedRoutes : [
             components.userSearch,
             components.userDetail,
             components.userPayment,
             components.userConfirmPayment,
             components.userBooking,
-            components.userProfile,
+            components.userProfile
         ],
         redirectRoutes: "user/search"
     },
@@ -102,6 +111,7 @@ const permissions = {
         allowedRoutes: [
             components.agentBooking,
             components.agentPackageTour,
+            components.agentAddPackageTour,
         ],
         redirectRoutes: "agent/booking"
     }
