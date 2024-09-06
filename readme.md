@@ -1,3 +1,4 @@
+#### how to run dev
 ### เตรียมความพร้อม
 1. install docker ลงเครื่อง
 2. เปิด docker desktop run
