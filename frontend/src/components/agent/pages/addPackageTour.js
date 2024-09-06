@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Form,Input,InputNumber,Button, Row, Col, notification} from 'antd'
+import { Form,Input,InputNumber,Button, Row, Col, notification,DatePicker, Space} from 'antd'
 import Title from 'antd/lib/typography/Title';
 import axios from '../../../routers/axios';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import Upload from './upload'
 import Header from './header'
 import './allStyle.css';
 
+const { RangePicker } = DatePicker;
 const layout = {
     labelCol: { xs: 24, sm: 7, md: 6, lg: 6, xl: 5, xxl: 4 },
     wrapperCol: { xs: 24, sm: 17, md: 18, lg: 18, xl: 19, xxl: 20 },
@@ -19,12 +20,13 @@ function AddPackageTour() {
   const [fileList, setFileList] = useState([])
   const onFinish = values => {
     const body = {
-            package_name: values.package_name,
+            packageName: values.packageName,
             description: values.description,
-            day_trip: values.day_trip,
-            capacity_persons: values.capacity_persons,
+            daysTrip: values.daysTrip,
+            maxPersons: values.maxPersons,
             price: values.price,
-            price_discount: values.price_discount
+            priceDiscount: values.price_Discount,
+            rangeDate: values.rangeDate
         }
         
         const formData = new FormData()
@@ -46,7 +48,7 @@ function AddPackageTour() {
                 notification.success({
                     message: `Add Package successfully`
                 });
-               navigate("/agent/package");
+               //navigate("/agent/package_tour");
             }
         ).catch(
             err => {
@@ -75,12 +77,12 @@ function AddPackageTour() {
                         style={{ width: "100%" }}
                     >   
                     <Form.Item
-                            name="package_name"
+                            name="packageName"
                             label="package Name"
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your License ID!',
+                                    message: 'Please input your package Name!',
                                 },
                             ]}
                         >
@@ -92,14 +94,14 @@ function AddPackageTour() {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your License ID!',
+                                    message: 'Please input your description!',
                                 },
                             ]}
                         >
                         <TextArea rows={4} placeholder="maxLength is 200" maxLength={200} />
                         </Form.Item>
                         <Form.Item
-                            name="day_trip"
+                            name="daysTrip"
                             label="Days Trip"
                             rules={[
                                 {
@@ -112,14 +114,13 @@ function AddPackageTour() {
                                 }
                             ]}
                         >
-                        <InputNumber 
-                          defaultValue={1}
+                        <InputNumber
                           min={0}
                           max={90}
                           style={{ width: "100%" }}/>
                         </Form.Item>
                         <Form.Item
-                            name="capacity_persons"
+                            name="maxPersons"
                             label="Max Persons"
                             rules={[
                                 {
@@ -132,8 +133,7 @@ function AddPackageTour() {
                                 }
                             ]}
                         >
-                        <InputNumber 
-                          defaultValue={1}
+                        <InputNumber
                           min={1}
                           max={1000}
                           style={{ width: "100%" }}/>
@@ -148,7 +148,7 @@ function AddPackageTour() {
                                 }
                             ]}
                         >
-                        <InputNumber defaultValue={10}
+                        <InputNumber 
                           formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                           parser={(value) => value?.replace(/\$\s?|(,*)/g, '')}
                           decimalSeparator={2}
@@ -160,7 +160,7 @@ function AddPackageTour() {
                         />
                         </Form.Item>
                         <Form.Item
-                            name="price_discount"
+                            name="priceDiscount"
                             label="Price Discount"
                             rules={[
                                 {
@@ -174,11 +174,30 @@ function AddPackageTour() {
                             ]}
                         >
                         <InputNumber 
-                          defaultValue={0}
                           min={0}
                           max={100}
                           style={{ width: "100%" }}/>
                         </Form.Item>
+                        
+
+                        <Form.Item
+                            name="rangeDate"
+                            label="startDate - endDate"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input amount Price Discount',
+                                }
+                            ]}
+                        >
+                        <RangePicker
+                            //defaultValue={[dayjs('2015/01/01', dateFormat), dayjs('2015/01/01', dateFormat)]}
+                            format={'YYYY/MM/DD'}
+                            style={{backgroundColor:'rgb(240, 240, 240)'}}
+                            />
+                        </Form.Item>
+
+
                         <Upload setFileListFromRegis={setFileList} inputUpload={{formItem : {name:'pic_package',label:'Pictures Package'},upload: {maxCount: 5}}}/>
                         <Row style={{float: 'right'}}>
                             <Button onClick={toPackage} className="Button button_link_style" htmlType="button" size="large" type="link">package</Button>

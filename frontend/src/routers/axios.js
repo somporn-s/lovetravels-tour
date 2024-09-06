@@ -22,6 +22,7 @@ axios.interceptors.request.use(
                 {'auth_token' : {headers: {Autherization : `Bearer ${token.refreshToken}`}}},
                 {'resend_otp' : {headers: {Autherization : `Bearer ${token.confirmToken}`}}},
                 {'confirm_email' : {headers: {Autherization : `Bearer ${token.confirmToken}`,'Content-Type': 'application/json'}}},
+                {'add_package' : {headers: {Autherization : `Bearer ${token.refreshToken}`,'Content-Type': 'multipart/form-data'}}},
                 {'booking' : {headers: {Autherization : `Bearer ${token.refreshToken}`}}},
             ]
         }
